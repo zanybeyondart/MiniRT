@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/10 14:03:03 by user             ###   ########.fr       */
+/*   Created: 2024/07/10 14:02:24 by user              #+#    #+#             */
+/*   Updated: 2024/07/10 14:06:10 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <unistd.h>
-# include <stdio.h>
-# include "../../Libft/libft.h"
-# ifdef __linux__
-    # include "../../MLX/minilibx_linux/mlx.h"
-# else
-    # include "../../MLX/minilibx_ogl/mlx.h"
-# endif
+#include "../inc/minirt.h"
 
-int	check_arguments(int ac, char **av);
+int	check_arguments(int ac, char **av)
+{
+	if (ac < 2)
+		return (1);
+	return (0);
+}
