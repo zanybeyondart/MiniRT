@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_arguments.c                                  :+:      :+:    :+:   */
+/*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 14:02:24 by user              #+#    #+#             */
-/*   Updated: 2024/07/17 13:35:00 by user             ###   ########.fr       */
+/*   Created: 2024/07/17 16:56:20 by user              #+#    #+#             */
+/*   Updated: 2024/07/17 17:31:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-int	check_arguments(int ac, char **av)
+t_objects	*load_objects()
 {
-	if (ac < 2)
-		return (1);
-	return (0);
+	t_objects	*obj;
+	t_objects	*obj2;
+
+	obj = ft_smart_malloc(sizeof(t_objects));
+	obj2 = ft_smart_malloc(sizeof(t_objects));
+	obj->data = set_sphere();
+	obj->type = SPHERE;
+	obj2->data = set_plane();
+	obj2->type = PLANE;
+	obj->next = obj2;
+	return (obj);
 }

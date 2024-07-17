@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/14 22:38:24 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:31:40 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,37 @@ typedef struct s_ray {
 typedef struct s_sphere {
 	t_v3	pos;
 	double	radius;
-	t_v3	color;
+	int		color;
 }t_sphere;
 
 typedef struct s_plane{
 	t_v3	pos;
 	t_v3	normal;
-	t_v3	color;
+	int		color;
 }t_plane;
+
+typedef enum e_objs
+{
+    SPHERE,
+    PLANE,
+} t_objs;
+
+typedef struct s_objects{
+	void				*data;
+	t_objs				type;
+	struct s_objects	*next;
+}t_objects;
 
 typedef struct s_vars {
 	void		*mlx;
 	void		*win;
 	t_cam		*camera;
-	t_sphere	*sphere;
-	t_plane		*plane;
+	t_objects	*objects;
 	int			update;
 }t_vars;
+
+
+
 
 // check_arguments.c
 int		check_arguments(int ac, char **av);
@@ -76,5 +90,20 @@ t_v3	subtract_vectors(const t_v3 *A, const t_v3 *B);
 void	normalize(t_v3 *vector);
 double	dot(const t_v3 *A, const t_v3 *B);
 
+// plane.c
+t_plane	*set_plane();
+
+// camera.c
+t_cam	*set_cam();
+
+// sphere.c
+t_sphere	*set_sphere();
+
+// colors.c
+int	create_trgb(int t, int r, int g, int b);
+int	add_colors(int color1, int color2, int addsub);
+
+// objects.c
+t_objects	*load_objects();
 
 #endif

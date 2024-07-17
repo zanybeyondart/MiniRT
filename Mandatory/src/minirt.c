@@ -3,22 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/07/14 22:06:17 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:35:42 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
+void	free_objects(t_objects *obj)
+{
+	if (obj->next)
+		free_objects(obj->next);
+	free(obj->data);
+	free(obj);
+}
+
+void	free_program(t_vars *vars)
+{
+	free(vars->camera);
+	free_objects(vars->objects);
+	free(vars);
+}
+
 int	quit(t_vars *vars)
 {
 	mlx_destroy_window(vars->mlx, vars->win);
+	free_program(vars);
 	exit(0);
 }
 
-int	hit_sphere(t_vars *vars, const t_ray ray)
+int	hit_sphere(t_sphere *sphere, const t_ray *ray)
 {
 	t_v3	oc;
 	float	a;
@@ -26,47 +42,49 @@ int	hit_sphere(t_vars *vars, const t_ray ray)
 	float	c;
 	float	intersect;
 
-	oc = subtract_vectors(&ray.origin, &vars->sphere->pos);
-	a = dot(&ray.direction, &ray.direction);
-	b = 2.0 * dot(&oc, &ray.direction);
-	c = dot(&oc, &oc) - vars->sphere->radius * vars->sphere->radius;
+	oc = subtract_vectors(&ray->origin, &sphere->pos);
+	a = dot(&ray->direction, &ray->direction);
+	b = 2.0 * dot(&oc, &ray->direction);
+	c = dot(&oc, &oc) - sphere->radius * sphere->radius;
 	intersect = b * b - 4 * a * c;
-	return (intersect > 0);
+	
+	if (intersect > 0)
+		return (sphere->color);
+	else
+		return (create_trgb(0, 160, 32, 240));
 }
 
-// int	hit_plane(t_vars *vars, t_ray ray)
-// {
-// 	double	t;
-// 	double	denom;
-// 	t_v3	intersect;
-
-// 	t = 0;
-// 	denom = dot(&vars->plane->normal, &ray.direction);
-// 	if (denom > 0)
-// 	{
-// 		intersect = subtract_vectors(&vars->plane->pos, &ray.origin);
-// 		t = dot(&intersect, &vars->plane->normal) / denom;
-// 		if (t >= 0)
-// 			return (1);
-// 	}
-// 	return (0);
-// }
-
-int hit_plane(t_vars *vars, const t_ray ray)
+int hit_plane(t_plane *plane, const t_ray *ray)
 {
     double Vd, V0, t, dee;
 
-    Vd = dot(&vars->plane->normal, &ray.direction);
+    Vd = dot(&plane->normal, &ray->direction);
 
     if (fabs(Vd) < 1e-6)
         return 0;
-	dee = -(vars->plane->pos.x + vars->plane->pos.y + vars->plane->pos.z);
-    V0 = -(dot(&vars->plane->normal, &ray.origin) + dee);
+	dee = -(plane->pos.x + plane->pos.y + plane->pos.z);
+    V0 = -(dot(&plane->normal, &ray->origin) + dee);
     t = V0 / Vd;
     if (t < 0)
-        return 0;
+        return (create_trgb(0, 160, 32, 240));
 
-   return 1;
+   return (plane->color);
+}
+
+int	ray_trace(t_objects *obj, t_ray *ray)
+{
+	int	color;
+	
+	color = create_trgb(0, 160, 32, 240);
+	while (obj)
+	{
+		if (obj->type == SPHERE)
+			color = hit_sphere(obj->data, ray);
+		else if (obj->type == PLANE)
+			color = hit_plane(obj->data, ray);
+		obj = obj->next;
+	}
+	return (color);
 }
 
 int	intersect(t_vars *vars, t_v3 pixel)
@@ -78,15 +96,10 @@ int	intersect(t_vars *vars, t_v3 pixel)
 	ray_d = subtract_vectors(&vars->camera->pos, &pixel);
 	normalize(&ray_d);
 	ray.direction = ray_d;
-	if (hit_sphere(vars, ray))
-		return (0x00FF0000);
-	if (hit_plane(vars, ray))
-		return (0x000000FF);
-	else
-		return (0x0000FF00);
+	return (ray_trace(vars->objects, &ray));
 }
 
-t_v3	set_pixel(int x, int y, t_vars *vars)
+t_v3	set_pixel(int x, int y, t_vars *vars) 
 {
 	t_v3	pixel_position;
 	double	fov_radians;
@@ -114,6 +127,7 @@ int	render(t_vars *vars)
 	i = 0;
 	if (vars->update == 1)
 	{
+		mlx_clear_window(vars->mlx, vars->win);
 		vars->update = 0;
 		while (i < 500 && vars->update == 0)
 		{
@@ -154,33 +168,17 @@ int	events(int keycode, t_vars *vars)
 
 int	main(int ac, char **av)
 {
-	t_vars		vars;
-	t_cam		camera;
-	t_sphere	sphere;
-	t_plane		plane;
+	t_vars		*vars;
 
-	plane.pos.x = 0;
-	plane.pos.y = 10;
-	plane.pos.z = 0;
-	plane.normal.x = 0;
-	plane.normal.y = -1;
-	plane.normal.z = 0;
-	camera.pos.x = 0;
-	camera.pos.y = 0;
-	camera.pos.z = 0;
-	sphere.pos.x = 0;
-	sphere.pos.y = 0;
-	sphere.pos.z = 30;
-	sphere.radius = 3;
-	vars.camera = &camera;
-	vars.sphere = &sphere;
-	vars.plane = &plane;
-	vars.update = 1;
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 500, 500, "HELLO");
-	mlx_loop_hook(vars.mlx, render, &vars);
-	mlx_hook(vars.win, 2, 0, events, &vars);
-	mlx_hook(vars.win, 17, 0, quit, &vars);
-	mlx_loop(vars.mlx);
+	vars = ft_smart_malloc(sizeof(t_vars));
+	vars->camera = set_cam();
+	vars->objects = load_objects();
+	vars->update = 1;
+	vars->mlx = mlx_init();
+	vars->win = mlx_new_window(vars->mlx, 500, 500, "HELLO");
+	mlx_loop_hook(vars->mlx, render, vars);
+	mlx_hook(vars->win, 2, 0, events, vars);
+	mlx_hook(vars->win, 17, 0, quit, vars);
+	mlx_loop(vars->mlx);
 	return (0);
 }

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_arguments.c                                  :+:      :+:    :+:   */
+/*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 14:02:24 by user              #+#    #+#             */
-/*   Updated: 2024/07/17 13:35:00 by user             ###   ########.fr       */
+/*   Created: 2024/07/17 13:46:42 by user              #+#    #+#             */
+/*   Updated: 2024/07/17 13:48:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-int	check_arguments(int ac, char **av)
+t_cam	*set_cam()
 {
-	if (ac < 2)
-		return (1);
-	return (0);
+	t_cam	*camera;
+
+	camera = ft_smart_malloc(sizeof(t_cam));
+	camera->pos.x = 0;
+	camera->pos.y = 0;
+	camera->pos.z = 0;
+	return (camera);
 }
