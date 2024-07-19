@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/07/17 17:35:42 by user             ###   ########.fr       */
+/*   Updated: 2024/07/19 17:31:25 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,56 +34,40 @@ int	quit(t_vars *vars)
 	exit(0);
 }
 
-int	hit_sphere(t_sphere *sphere, const t_ray *ray)
-{
-	t_v3	oc;
-	float	a;
-	float	b;
-	float	c;
-	float	intersect;
-
-	oc = subtract_vectors(&ray->origin, &sphere->pos);
-	a = dot(&ray->direction, &ray->direction);
-	b = 2.0 * dot(&oc, &ray->direction);
-	c = dot(&oc, &oc) - sphere->radius * sphere->radius;
-	intersect = b * b - 4 * a * c;
-	
-	if (intersect > 0)
-		return (sphere->color);
-	else
-		return (create_trgb(0, 160, 32, 240));
-}
-
-int hit_plane(t_plane *plane, const t_ray *ray)
-{
-    double Vd, V0, t, dee;
-
-    Vd = dot(&plane->normal, &ray->direction);
-
-    if (fabs(Vd) < 1e-6)
-        return 0;
-	dee = -(plane->pos.x + plane->pos.y + plane->pos.z);
-    V0 = -(dot(&plane->normal, &ray->origin) + dee);
-    t = V0 / Vd;
-    if (t < 0)
-        return (create_trgb(0, 160, 32, 240));
-
-   return (plane->color);
-}
-
 int	ray_trace(t_objects *obj, t_ray *ray)
 {
 	int	color;
-	
+	double *closest;
+	double *new;
+
+	closest = NULL;
+	new = NULL;
 	color = create_trgb(0, 160, 32, 240);
 	while (obj)
 	{
 		if (obj->type == SPHERE)
-			color = hit_sphere(obj->data, ray);
+			new = hit_sphere(obj->data, ray);
 		else if (obj->type == PLANE)
-			color = hit_plane(obj->data, ray);
+			new = hit_plane(obj->data, ray);
+		if (new != NULL)
+		{
+			if (closest == NULL || (new[0] < closest[0]))
+			{
+				if (closest)
+					free(closest);
+				closest = new;
+				if (obj->type == SPHERE)
+					color = set_sphere_color(obj->data);
+				else if (obj->type == PLANE)
+					color = set_plane_color(obj->data);
+			}
+			else
+				free(new);
+		}
 		obj = obj->next;
 	}
+	if (closest)
+		free(closest);
 	return (color);
 }
 
@@ -110,8 +94,8 @@ t_v3	set_pixel(int x, int y, t_vars *vars)
 	fov_radians = (90 * M_PI) / 180.0;
 	viewport_height = 2.0 * tan(fov_radians / 2.0) * (1);
 	viewport_width = (viewport_height) * 1;
-	uv[0] = (double)(x - 500 / 2) / (double) 500 / 2 * (viewport_width / 2);
-	uv[1] = (double)(500 / 2 - y) / (double) 500 / 2 * (viewport_height / 2);
+	uv[0] = (double)(x - vars->size[0] / 2) / (double) vars->size[0] / 2 * (viewport_width / 2);
+	uv[1] = (double)(vars->size[1] / 2 - y) / (double) vars->size[1] / 2 * (viewport_height / 2);
 	pixel_position.x = vars->camera->pos.x + uv[0];
 	pixel_position.y = vars->camera->pos.y + uv[1];
 	pixel_position.z = vars->camera->pos.z + 1.0;
@@ -129,10 +113,10 @@ int	render(t_vars *vars)
 	{
 		mlx_clear_window(vars->mlx, vars->win);
 		vars->update = 0;
-		while (i < 500 && vars->update == 0)
+		while (i < vars->size[0] && vars->update == 0)
 		{
 			j = 0;
-			while (j < 500 && vars->update == 0)
+			while (j < vars->size[1] && vars->update == 0)
 			{
 				pixel = set_pixel(i, j, vars);
 				mlx_pixel_put(vars->mlx, vars->win, i, j,
@@ -175,7 +159,9 @@ int	main(int ac, char **av)
 	vars->objects = load_objects();
 	vars->update = 1;
 	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, 500, 500, "HELLO");
+	vars->size[0] = 100;
+	vars->size[1] = 100;
+	vars->win = mlx_new_window(vars->mlx, vars->size[0], vars->size[1], "HELLO");
 	mlx_loop_hook(vars->mlx, render, vars);
 	mlx_hook(vars->win, 2, 0, events, vars);
 	mlx_hook(vars->win, 17, 0, quit, vars);

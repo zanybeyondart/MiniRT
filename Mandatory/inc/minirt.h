@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/17 17:31:40 by user             ###   ########.fr       */
+/*   Updated: 2024/07/19 17:09:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_v3 {
 
 typedef struct s_cam {
 	t_v3	pos;
+	t_v3	normal;
 	double	fov;
 }t_cam;
 
@@ -77,6 +78,7 @@ typedef struct s_vars {
 	t_cam		*camera;
 	t_objects	*objects;
 	int			update;
+	int			size[2];
 }t_vars;
 
 
@@ -89,15 +91,20 @@ int		check_arguments(int ac, char **av);
 t_v3	subtract_vectors(const t_v3 *A, const t_v3 *B);
 void	normalize(t_v3 *vector);
 double	dot(const t_v3 *A, const t_v3 *B);
+int	cam_normal(t_vars *vars, char a);
 
 // plane.c
 t_plane	*set_plane();
+int	set_plane_color(t_plane *plane);
+double	*hit_plane(t_plane *plane, const t_ray *ray);
 
 // camera.c
 t_cam	*set_cam();
 
 // sphere.c
 t_sphere	*set_sphere();
+int	set_sphere_color(t_sphere *sphere);
+double	*hit_sphere(t_sphere *sphere, const t_ray *ray);
 
 // colors.c
 int	create_trgb(int t, int r, int g, int b);

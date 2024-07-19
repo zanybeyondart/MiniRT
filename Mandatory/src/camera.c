@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:46:42 by user              #+#    #+#             */
-/*   Updated: 2024/07/17 13:48:24 by user             ###   ########.fr       */
+/*   Updated: 2024/07/19 17:29:52 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,8 @@ t_cam	*set_cam()
 	camera->pos.x = 0;
 	camera->pos.y = 0;
 	camera->pos.z = 0;
+	camera->normal.x = 0;
+	camera->normal.y = -1;
+	camera->normal.z = 0;
 	return (camera);
 }
