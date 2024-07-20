@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_maths.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 11:05:25 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/19 17:23:40 by user             ###   ########.fr       */
+/*   Updated: 2024/07/20 14:02:40 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ t_v3	subtract_vectors(const t_v3 *A, const t_v3 *B)
 	final_vector.x = B->x - A->x;
 	final_vector.y = B->y - A->y;
 	final_vector.z = B->z - A->z;
+	return (final_vector);
+}
+
+t_v3	add_vectors(const t_v3 *A, const t_v3 *B)
+{
+	t_v3	final_vector;
+
+	final_vector.x = A->x + B->x;
+	final_vector.y = A->y + B->y;
+	final_vector.z = A->z + B->z;
 	return (final_vector);
 }
 

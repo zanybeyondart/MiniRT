@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/07/19 17:31:25 by user             ###   ########.fr       */
+/*   Updated: 2024/07/20 14:44:42 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,28 @@ int	quit(t_vars *vars)
 	exit(0);
 }
 
+int	calculate_normal(t_v3 *ray_o, double *t, t_v3 *ray_d, t_sphere *sphere)
+{
+	t_v3	n;
+	t_v3	t_ray;
+	t_v3	*t_dir;
+	int		mul;
+
+	t_dir = ft_smart_malloc(sizeof(t_v3));
+	t_dir->x = ray_d->x * t[0];
+	t_dir->y = ray_d->y * t[0];
+	t_dir->z = ray_d->z * t[0];
+	t_ray = add_vectors(ray_o, t_dir);
+	n = subtract_vectors(&t_ray, &sphere->pos);
+	return (create_trgb(0, 127.5 * (n.x + 1), 127.5 * (n.y + 1), 127.5 * (n.z + 1)));
+}
+
 int	ray_trace(t_objects *obj, t_ray *ray)
 {
-	int	color;
-	double *closest;
-	double *new;
+	int		color;
+	double	*closest;
+	double	*new;
+	t_v3	*normal;
 
 	closest = NULL;
 	new = NULL;
@@ -57,7 +74,10 @@ int	ray_trace(t_objects *obj, t_ray *ray)
 					free(closest);
 				closest = new;
 				if (obj->type == SPHERE)
-					color = set_sphere_color(obj->data);
+				{
+					color = calculate_normal(&ray->origin, closest, &ray->direction, obj->data);
+					// color = set_sphere_color(obj->data);
+				}
 				else if (obj->type == PLANE)
 					color = set_plane_color(obj->data);
 			}
@@ -83,7 +103,7 @@ int	intersect(t_vars *vars, t_v3 pixel)
 	return (ray_trace(vars->objects, &ray));
 }
 
-t_v3	set_pixel(int x, int y, t_vars *vars) 
+t_v3	set_pixel(int x, int y, t_vars *vars)
 {
 	t_v3	pixel_position;
 	double	fov_radians;
@@ -159,8 +179,8 @@ int	main(int ac, char **av)
 	vars->objects = load_objects();
 	vars->update = 1;
 	vars->mlx = mlx_init();
-	vars->size[0] = 100;
-	vars->size[1] = 100;
+	vars->size[0] = 500;
+	vars->size[1] = 500;
 	vars->win = mlx_new_window(vars->mlx, vars->size[0], vars->size[1], "HELLO");
 	mlx_loop_hook(vars->mlx, render, vars);
 	mlx_hook(vars->win, 2, 0, events, vars);

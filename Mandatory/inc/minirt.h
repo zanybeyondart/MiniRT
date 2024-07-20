@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/19 17:09:22 by user             ###   ########.fr       */
+/*   Updated: 2024/07/20 13:57:01 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		check_arguments(int ac, char **av);
 
 // vec3_maths.c
 t_v3	subtract_vectors(const t_v3 *A, const t_v3 *B);
+t_v3	add_vectors(const t_v3 *A, const t_v3 *B);
 void	normalize(t_v3 *vector);
 double	dot(const t_v3 *A, const t_v3 *B);
 int	cam_normal(t_vars *vars, char a);
