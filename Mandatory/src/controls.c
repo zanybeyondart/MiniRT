@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 13:46:42 by user              #+#    #+#             */
-/*   Updated: 2024/07/20 15:25:42 by zvakil           ###   ########.fr       */
+/*   Created: 2024/07/20 17:55:11 by zvakil            #+#    #+#             */
+/*   Updated: 2024/07/20 17:55:38 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_cam	*set_cam()
+int	events(int keycode, t_vars *vars)
 {
-	t_cam	*camera;
-
-	camera = ft_smart_malloc(sizeof(t_cam));
-	camera->pos.x = 0;
-	camera->pos.y = 0;
-	camera->pos.z = 0;
-	camera->normal.x = 0;
-	camera->normal.y = 1;
-	camera->normal.z = 0;
-	return (camera);
+	if (keycode == W_KEY)
+		vars->camera->pos.y += 1;
+	if (keycode == S_KEY)
+		vars->camera->pos.y -= 1;
+	if (keycode == UP_KEY)
+		vars->camera->pos.z -= 1;
+	if (keycode == DOWN_KEY)
+		vars->camera->pos.z += 1;
+	if (keycode == RIGHT_KEY)
+		vars->camera->pos.x += 1;
+	if (keycode == LEFT_KEY)
+		vars->camera->pos.x -= 1;
+	if (keycode == ESC)
+		quit(vars);
+	vars->update = 1;
+	return (0);
 }

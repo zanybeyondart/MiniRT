@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/20 13:57:01 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/20 20:43:57 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@
 # define RIGHT_KEY	124
 # define LEFT_KEY	123
 # define ESC	53
+
+
+// SETTINGS
+# define WIDTH	500
+# define HEIGHT	500
+# define THRESHOLD	50
+
 
 
 typedef struct s_v3 {
@@ -62,9 +69,9 @@ typedef struct s_plane{
 
 typedef enum e_objs
 {
-    SPHERE,
-    PLANE,
-} t_objs;
+	SPHERE,
+	PLANE,
+}t_objs;
 
 typedef struct s_objects{
 	void				*data;
@@ -85,33 +92,54 @@ typedef struct s_vars {
 
 
 // check_arguments.c
-int		check_arguments(int ac, char **av);
+int			check_arguments(int ac, char **av);
+
+// normals.c
+void		normalize(t_v3 *vector);
+
 
 // vec3_maths.c
-t_v3	subtract_vectors(const t_v3 *A, const t_v3 *B);
-t_v3	add_vectors(const t_v3 *A, const t_v3 *B);
-void	normalize(t_v3 *vector);
-double	dot(const t_v3 *A, const t_v3 *B);
-int	cam_normal(t_vars *vars, char a);
+t_v3		subtract_vectors(const t_v3 *A, const t_v3 *B);
+t_v3		add_vectors(const t_v3 *A, const t_v3 *B);
+double		dot(const t_v3 *A, const t_v3 *B);
+int			cam_normal(t_vars *vars, char a);
 
 // plane.c
-t_plane	*set_plane();
-int	set_plane_color(t_plane *plane);
-double	*hit_plane(t_plane *plane, const t_ray *ray);
+t_plane		*set_plane();
+int			set_plane_color(t_plane *plane);
+double		*hit_plane(t_plane *plane, const t_ray *ray);
+int			plane_normal(t_plane *plane);
 
 // camera.c
-t_cam	*set_cam();
+t_cam		*set_cam();
 
 // sphere.c
 t_sphere	*set_sphere();
-int	set_sphere_color(t_sphere *sphere);
-double	*hit_sphere(t_sphere *sphere, const t_ray *ray);
+int			set_sphere_color(t_sphere *sphere);
+double		*hit_sphere(t_sphere *sphere, const t_ray *ray);
+int			sphere_normal(t_v3 *ray_o, double *t,
+				t_v3 *ray_d, t_sphere *sphere);
 
 // colors.c
-int	create_trgb(int t, int r, int g, int b);
-int	add_colors(int color1, int color2, int addsub);
+int			create_trgb(int t, int r, int g, int b);
+int			math_colors(int color1, int color2, int addsub);
+int			avg_color(int color1, int color2, int color3, int color4);
+int			avg_color_2(int color1, int color2);
 
 // objects.c
 t_objects	*load_objects();
+
+// exit.c
+void		free_objects(t_objects *obj);
+void		free_program(t_vars *vars);
+int			quit(t_vars *vars);
+
+// controls.c
+int			events(int keycode, t_vars *vars);
+
+// anti_alias.c
+void		anti_alias(t_vars *vars);
+int			store_render(int update, int x, int y, int color);
+void		modify_pixel(t_vars *vars, int x, int y);
 
 #endif

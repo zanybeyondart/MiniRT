@@ -6,12 +6,11 @@
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 11:05:25 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/20 14:02:40 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:57:31 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
-
 
 t_v3	subtract_vectors(const t_v3 *A, const t_v3 *B)
 {
@@ -31,16 +30,6 @@ t_v3	add_vectors(const t_v3 *A, const t_v3 *B)
 	final_vector.y = A->y + B->y;
 	final_vector.z = A->z + B->z;
 	return (final_vector);
-}
-
-void	normalize(t_v3 *vector)
-{
-	double	len;
-
-	len = sqrt(pow(vector->x, 2) + pow(vector->y, 2) + pow(vector->z, 2));
-	vector->x = vector->x / len;
-	vector->y = vector->y / len;
-	vector->z = vector->z / len;
 }
 
 double	dot(const t_v3 *A, const t_v3 *B)

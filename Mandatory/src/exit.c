@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/17 13:46:42 by user              #+#    #+#             */
-/*   Updated: 2024/07/20 15:25:42 by zvakil           ###   ########.fr       */
+/*   Created: 2024/07/20 17:52:41 by zvakil            #+#    #+#             */
+/*   Updated: 2024/07/20 17:53:01 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_cam	*set_cam()
+void	free_objects(t_objects *obj)
 {
-	t_cam	*camera;
+	if (obj->next)
+		free_objects(obj->next);
+	free(obj->data);
+	free(obj);
+}
 
-	camera = ft_smart_malloc(sizeof(t_cam));
-	camera->pos.x = 0;
-	camera->pos.y = 0;
-	camera->pos.z = 0;
-	camera->normal.x = 0;
-	camera->normal.y = 1;
-	camera->normal.z = 0;
-	return (camera);
+void	free_program(t_vars *vars)
+{
+	free(vars->camera);
+	free_objects(vars->objects);
+	free(vars);
+}
+
+int	quit(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	free_program(vars);
+	exit(0);
 }

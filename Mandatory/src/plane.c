@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/07/18 15:49:51 by user             ###   ########.fr       */
+/*   Updated: 2024/07/20 17:58:24 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_plane	*set_plane()
 	plane->pos.y = 0;
 	plane->pos.z = 0;
 	plane->normal.x = 0;
-	plane->normal.y = -1;
+	plane->normal.y = 1;
 	plane->normal.z = 0;
 	plane->color = create_trgb(0, 255, 0, 0);
 	return (plane);
@@ -34,23 +34,29 @@ int	set_plane_color(t_plane *plane)
 
 double	*hit_plane(t_plane *plane, const t_ray *ray)
 {
-    double	Vd;
-	double	V0;
+	double	vd;
+	double	v0;
 	double	*t;
 	double	dee;
 
 	t = ft_smart_malloc(sizeof(double) * 2);
-    Vd = dot(&plane->normal, &ray->direction);
-    if (fabs(Vd) < 1e-9)
-        return 0;
+	vd = dot(&plane->normal, &ray->direction);
+	if (fabs(vd) < 1e-9)
+		return (0);
 	dee = -(plane->pos.x + plane->pos.y + plane->pos.z);
-    V0 = -(dot(&plane->normal, &ray->origin) + dee);
-    t[0] = V0 / Vd;
+	v0 = -(dot(&plane->normal, &ray->origin) + dee);
+	t[0] = v0 / vd;
 	t[1] = 0;
-    if (t[0] <= 0)
+	if (t[0] <= 0)
 	{
 		free(t);
-        return (NULL);
+		return (NULL);
 	}
-   return (t);
+	return (t);
+}
+
+int	plane_normal(t_plane *plane)
+{
+	return (create_trgb(0, 127.5 * (plane->normal.x + 1),
+			127.5 * (plane->normal.y + 1), 127.5 * (plane->normal.z + 1)));
 }
