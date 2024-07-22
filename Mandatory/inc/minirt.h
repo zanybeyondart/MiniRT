@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/20 20:43:57 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/22 02:21:12 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,14 @@
 
 
 // SETTINGS
-# define WIDTH	500
-# define HEIGHT	500
+# define WIDTH	100
+# define HEIGHT	100
 # define THRESHOLD	50
 
-
+// RANDOM SEED GEN
+# define AB 1664525
+# define C 1013904223
+# define M 4294967296
 
 typedef struct s_v3 {
 	double	x;
@@ -76,6 +79,7 @@ typedef enum e_objs
 typedef struct s_objects{
 	void				*data;
 	t_objs				type;
+	int					id;
 	struct s_objects	*next;
 }t_objects;
 
@@ -108,7 +112,7 @@ int			cam_normal(t_vars *vars, char a);
 t_plane		*set_plane();
 int			set_plane_color(t_plane *plane);
 double		*hit_plane(t_plane *plane, const t_ray *ray);
-int			plane_normal(t_plane *plane);
+int			plane_normal(t_ray *ray, double *t, t_objects *obj, t_objects *w_obj);
 
 // camera.c
 t_cam		*set_cam();
@@ -117,8 +121,9 @@ t_cam		*set_cam();
 t_sphere	*set_sphere();
 int			set_sphere_color(t_sphere *sphere);
 double		*hit_sphere(t_sphere *sphere, const t_ray *ray);
-int			sphere_normal(t_v3 *ray_o, double *t,
-				t_v3 *ray_d, t_sphere *sphere);
+int			sphere_normal(t_ray *ray, double *t,
+				t_objects *obj, t_objects *w_objs);
+int	diffuse(t_ray *ray, t_objects *obj, t_objects *w_objs, int samples);
 
 // colors.c
 int			create_trgb(int t, int r, int g, int b);
@@ -128,6 +133,7 @@ int			avg_color_2(int color1, int color2);
 
 // objects.c
 t_objects	*load_objects();
+t_objects	*get_objects(t_objects *obj, int change);
 
 // exit.c
 void		free_objects(t_objects *obj);

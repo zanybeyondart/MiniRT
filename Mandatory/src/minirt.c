@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/07/20 20:55:37 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/22 02:21:53 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	ray_trace(t_objects *obj, t_ray *ray)
 {
-	int		color;
-	double	*closest;
-	double	*new;
-	t_v3	*normal;
+	int			color;
+	double		*closest;
+	double		*new;
+	t_v3		*normal;
 
 	closest = NULL;
 	new = NULL;
@@ -30,15 +30,15 @@ int	ray_trace(t_objects *obj, t_ray *ray)
 			new = hit_plane(obj->data, ray);
 		if (new != NULL)
 		{
-			if (closest == NULL || (new[0] < closest[0]))
+			if (closest == NULL || (closest && new[0] < closest[0]))
 			{
 				if (closest)
 					free(closest);
 				closest = new;
 				if (obj->type == SPHERE)
-					color = sphere_normal(&ray->origin, closest, &ray->direction, obj->data);
+					color = sphere_normal(ray, closest, obj, get_objects(NULL, 0));
 				else if (obj->type == PLANE)
-					color = plane_normal(obj->data);
+					color = plane_normal(ray, closest, obj, get_objects(NULL, 0));
 			}
 			else
 				free(new);
