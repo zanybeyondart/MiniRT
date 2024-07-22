@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   anti_alias.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:19:29 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/20 20:56:23 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:33:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,14 @@ int	store_render(int update, int x, int y, int color)
 {
 	static int	image[WIDTH][HEIGHT];
 
-	if (update == 1)
+	if (update == 1 && &image[x][y])
 	{
 		image[x][y] = color;
 		return (image[x][y]);
 	}
-	return (image[x][y]);
-}
-
-int	min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
+	if (image[x][y])
+		return (image[x][y]);
+	return (0);
 }
 
 int	*set_pixel_box(int x, int y)

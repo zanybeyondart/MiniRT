@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 02:21:12 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:47:26 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,70 +30,76 @@
 # define LEFT_KEY	123
 # define ESC	53
 
-
 // SETTINGS
-# define WIDTH	100
-# define HEIGHT	100
-# define THRESHOLD	50
+# define WIDTH	500
+# define HEIGHT	500
+# define THRESHOLD	1
 
 // RANDOM SEED GEN
-# define AB 1664525
-# define C 1013904223
-# define M 4294967296
+# define SEED_A 1664525
+# define SEED_C 1013904223
+# define SEED_M 4294967296
 
-typedef struct s_v3 {
+typedef struct s_v3
+{
 	double	x;
 	double	y;
 	double	z;
-}t_v3;
+}	t_v3;
 
-typedef struct s_cam {
+typedef struct s_cam
+{
 	t_v3	pos;
 	t_v3	normal;
 	double	fov;
-}t_cam;
+}	t_cam;
 
-typedef struct s_ray {
+typedef struct s_ray
+{
 	t_v3	origin;
 	t_v3	direction;
-}t_ray;
+}	t_ray;
 
-typedef struct s_sphere {
+typedef struct s_sphere
+{
 	t_v3	pos;
 	double	radius;
 	int		color;
-}t_sphere;
+}	t_sphere;
 
-typedef struct s_plane{
+typedef struct s_plane
+{
 	t_v3	pos;
 	t_v3	normal;
 	int		color;
-}t_plane;
+}	t_plane;
 
 typedef enum e_objs
 {
 	SPHERE,
 	PLANE,
-}t_objs;
+}	t_objs;
 
-typedef struct s_objects{
+typedef struct s_objects
+{
 	void				*data;
 	t_objs				type;
 	int					id;
 	struct s_objects	*next;
-}t_objects;
+}	t_objects;
 
-typedef struct s_vars {
+typedef struct s_vars
+{
 	void		*mlx;
 	void		*win;
 	t_cam		*camera;
 	t_objects	*objects;
 	int			update;
 	int			size[2];
-}t_vars;
+}	t_vars;
 
-
-
+// minirt.c
+int			intersect(t_vars *vars, t_v3 pixel);
 
 // check_arguments.c
 int			check_arguments(int ac, char **av);
@@ -107,12 +113,14 @@ t_v3		subtract_vectors(const t_v3 *A, const t_v3 *B);
 t_v3		add_vectors(const t_v3 *A, const t_v3 *B);
 double		dot(const t_v3 *A, const t_v3 *B);
 int			cam_normal(t_vars *vars, char a);
+int			min(int a, int b);
 
 // plane.c
 t_plane		*set_plane();
 int			set_plane_color(t_plane *plane);
 double		*hit_plane(t_plane *plane, const t_ray *ray);
-int			plane_normal(t_ray *ray, double *t, t_objects *obj, t_objects *w_obj);
+int			plane_normal(t_ray *ray, double *t,
+				t_objects *obj, t_objects *w_obj);
 
 // camera.c
 t_cam		*set_cam();
@@ -123,7 +131,7 @@ int			set_sphere_color(t_sphere *sphere);
 double		*hit_sphere(t_sphere *sphere, const t_ray *ray);
 int			sphere_normal(t_ray *ray, double *t,
 				t_objects *obj, t_objects *w_objs);
-int	diffuse(t_ray *ray, t_objects *obj, t_objects *w_objs, int samples);
+int			diffuse(t_ray *ray, t_objects *obj, t_objects *w_objs, int samples);
 
 // colors.c
 int			create_trgb(int t, int r, int g, int b);
@@ -147,5 +155,18 @@ int			events(int keycode, t_vars *vars);
 void		anti_alias(t_vars *vars);
 int			store_render(int update, int x, int y, int color);
 void		modify_pixel(t_vars *vars, int x, int y);
+
+// render.c
+int			render(t_vars *vars);
+
+// ray_trace.c
+int			ray_trace(t_objects *obj, t_ray *ray);
+double		*hit_object(t_objects *obj, t_ray *ray);
+
+// rand_ray.c
+t_ray		random_ray(t_v3 normal, t_v3 origin);
+
+// data_manage.c
+int			data_color(t_objects *obj);
 
 #endif

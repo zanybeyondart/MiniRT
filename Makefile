@@ -26,7 +26,7 @@ all: $(NAME)
 $(NAME): $(SRC)
 	@cd $(MLX) && make
 	@cd $(LIBFT) && make
-	@cc $(MLX_FLAGS) ./libft/libft.a $^ -o $@
+	@cc $(MLX_FLAGS) ./libft/libft.a  $(DEBUG_AD) $^ -o $@
 
 %.o: %.c
 	@echo "$(GREEN)MiniRT:$(WHITE) Compiling $(notdir $<)$(RESET)"

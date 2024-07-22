@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"array": "c",
+		"vector": "c"
 	}
 }

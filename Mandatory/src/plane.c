@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 02:21:05 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/22 17:57:27 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,19 @@ int	plane_normal(t_ray *ray, double *t, t_objects *obj, t_objects *w_obj)
 {
 	t_v3	rayt;
 	t_ray	inter;
-	t_plane *plane;
+	t_plane	*plane;
 
 	plane = obj->data;
 	rayt.x = ray->origin.x + ray->direction.x * t[0];
 	rayt.y = ray->origin.y + ray->direction.y * t[0];
 	rayt.z = ray->origin.z + ray->direction.z * t[0];
 	inter.origin = rayt;
-	inter.direction = plane->normal;
-	return (diffuse(&inter, obj, w_obj, 100));
+	if (ray->origin.y <= plane->pos.y)
+	{
+		inter.direction = plane->normal;
+		inter.direction.y *= -1.0;
+	}
+	else
+		inter.direction = plane->normal;
+	return (diffuse(&inter, obj, w_obj, 10));
 }

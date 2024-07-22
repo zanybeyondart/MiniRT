@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_maths.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 11:05:25 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/21 21:24:10 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/22 14:00:17 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ int	cam_normal(t_vars *vars, char a)
 		else
 			return (-1);
 	}
+}
+
+int	min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
 }
