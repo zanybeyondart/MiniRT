@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:56:20 by user              #+#    #+#             */
-/*   Updated: 2024/07/21 23:01:26 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/07/23 17:51:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,23 @@ t_objects	*load_objects()
 {
 	t_objects	*obj;
 	t_objects	*obj2;
+	t_objects	*obj3;
 
 	obj = ft_smart_malloc(sizeof(t_objects));
 	obj2 = ft_smart_malloc(sizeof(t_objects));
-	obj->data = set_sphere();
+	obj3 = ft_smart_malloc(sizeof(t_objects));
+	obj->data = set_sphere(-2, 0, 4, create_trgb(0, 0, 0, 220));
 	obj->type = SPHERE;
 	obj->id = 1;
 	obj2->data = set_plane();
 	obj2->type = PLANE;
-	obj2->next = NULL;
 	obj2->id = 2;
 	obj->next = obj2;
+	obj3->data = set_sphere(2, 0, 4, create_trgb(0, 220, 0, 0));
+	obj3->type = SPHERE;
+	obj3->id = 3;
+	obj3->next = NULL;
+	obj2->next = obj3;
 	get_objects(obj, 1);
 	return (obj);
 }

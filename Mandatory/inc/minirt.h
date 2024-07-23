@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 17:47:26 by user             ###   ########.fr       */
+/*   Updated: 2024/07/23 13:42:08 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,19 +119,17 @@ int			min(int a, int b);
 t_plane		*set_plane();
 int			set_plane_color(t_plane *plane);
 double		*hit_plane(t_plane *plane, const t_ray *ray);
-int			plane_normal(t_ray *ray, double *t,
-				t_objects *obj, t_objects *w_obj);
+t_ray		plane_hitray(t_plane *plane, double *t, t_ray *ray);
 
 // camera.c
 t_cam		*set_cam();
 
 // sphere.c
-t_sphere	*set_sphere();
+t_sphere	*set_sphere(double x, double y, double z, int color);
 int			set_sphere_color(t_sphere *sphere);
 double		*hit_sphere(t_sphere *sphere, const t_ray *ray);
-int			sphere_normal(t_ray *ray, double *t,
-				t_objects *obj, t_objects *w_objs);
-int			diffuse(t_ray *ray, t_objects *obj, t_objects *w_objs, int samples);
+int			diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, int samples);
+t_ray		sphere_hitray(t_sphere *sphere, double *t, t_ray *ray);
 
 // colors.c
 int			create_trgb(int t, int r, int g, int b);
@@ -160,7 +158,7 @@ void		modify_pixel(t_vars *vars, int x, int y);
 int			render(t_vars *vars);
 
 // ray_trace.c
-int			ray_trace(t_objects *obj, t_ray *ray);
+int			ray_trace(t_objects *obj, t_ray ray);
 double		*hit_object(t_objects *obj, t_ray *ray);
 
 // rand_ray.c

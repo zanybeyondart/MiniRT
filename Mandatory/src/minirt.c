@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 14:02:09 by user             ###   ########.fr       */
+/*   Updated: 2024/07/23 13:16:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	intersect(t_vars *vars, t_v3 pixel)
 	ray_d = subtract_vectors(&vars->camera->pos, &pixel);
 	ray.direction = ray_d;
 	normalize(&ray.direction);
-	return (ray_trace(vars->objects, &ray));
+	return (ray_trace(vars->objects, ray));
 }
 
 int	main(int ac, char **av)

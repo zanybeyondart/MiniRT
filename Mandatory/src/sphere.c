@@ -6,22 +6,22 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 17:59:10 by user             ###   ########.fr       */
+/*   Updated: 2024/07/23 17:50:30 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_sphere	*set_sphere()
+t_sphere	*set_sphere(double x, double y, double z, int color)
 {
 	t_sphere	*sphere;
 
 	sphere = ft_smart_malloc(sizeof(t_sphere));
-	sphere->pos.x = 0;
-	sphere->pos.y = 0;
-	sphere->pos.z = -4;
-	sphere->radius = 5;
-	sphere->color = create_trgb(0, 244, 0, 0);
+	sphere->pos.x = x;
+	sphere->pos.y = y;
+	sphere->pos.z = -z;
+	sphere->radius = 2;
+	sphere->color = color;
 	return (sphere);
 }
 
@@ -30,24 +30,22 @@ int	set_sphere_color(t_sphere *sphere)
 	return (sphere->color);
 }
 
-int	sphere_normal(t_ray *ray, double *t, t_objects *obj, t_objects *w_objs)
+t_ray	sphere_hitray(t_sphere *sphere, double *t, t_ray *ray)
 {
 	t_v3		n;
 	t_v3		rayt;
-	t_ray		inter;
-	t_sphere	*sphere;
+	t_ray		final_ray;
 
-	sphere = obj->data;
 	rayt.x = ray->origin.x + ray->direction.x * t[0];
 	rayt.y = ray->origin.y + ray->direction.y * t[0];
 	rayt.z = ray->origin.z + ray->direction.z * t[0];
-	inter.origin = rayt;
 	n.x = (rayt.x - sphere->pos.x) / sphere->radius;
 	n.y = (rayt.y - sphere->pos.y) / sphere->radius;
 	n.z = (rayt.z - sphere->pos.z) / sphere->radius;
 	normalize(&n);
-	inter.direction = n;
-	return (diffuse(&inter, obj, w_objs, 10));
+	final_ray.direction = n;
+	final_ray.origin = rayt;
+	return (final_ray);
 }
 
 double	*hit_sphere(t_sphere *sphere, const t_ray *ray)

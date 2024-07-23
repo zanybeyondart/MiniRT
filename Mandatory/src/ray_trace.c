@@ -6,29 +6,46 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 17:45:03 by user             ###   ########.fr       */
+/*   Updated: 2024/07/23 17:52:05 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
+t_ray	set_hitpoint(t_objects *obj, double *t, t_ray *ray)
+{
+	if (obj->type == SPHERE)
+		return (sphere_hitray(obj->data, t, ray));
+	else if (obj->type == PLANE)
+		return (plane_hitray(obj->data, t, ray));
+}
+
 int	bounce_ray(t_ray ray, t_objects *hit, int depth, t_objects *main)
 {
-	int		color;
-	double	*t;
+	int			color;
+	double		*t;
+	static int	dep;
 
 	t = NULL;
 	color = data_color(main);
+	if (dep > 3)
+	{
+		dep = 1;
+		return (color);
+	}
 	t = hit_object(hit, &ray);
 	if (t)
 	{
 		color = data_color(hit);
+		dep++;
+		//ray_trace(get_objects(NULL, 0), set_hitpoint(hit, t, &ray));
 		free(t);
 	}
+	dep = 1;
 	return (color);
 }
 
-int	diffuse(t_ray *ray, t_objects *obj, t_objects *w_objs, int samples)
+int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, int samples)
 {
 	int	color;
 
@@ -40,7 +57,7 @@ int	diffuse(t_ray *ray, t_objects *obj, t_objects *w_objs, int samples)
 			while (samples > 0)
 			{
 				color = avg_color_2(color, bounce_ray(random_ray
-							(ray->direction, ray->origin), w_objs, 0, obj));
+							(ray.direction, ray.origin), w_objs, 0, obj));
 				samples--;
 			}
 		}
@@ -64,36 +81,42 @@ double	*hit_object(t_objects *obj, t_ray *ray)
 int	set_ray_color(t_ray *ray, double *closest, t_objects *obj, int color)
 {
 	if (obj->type == SPHERE)
-		color = sphere_normal(ray, closest, obj, get_objects(NULL, 0));
+		color = diffuse(sphere_hitray(obj->data, closest, ray),
+				obj, get_objects(NULL, 0), 10);
 	else if (obj->type == PLANE)
-		color = plane_normal(ray, closest, obj, get_objects(NULL, 0));
+		color = diffuse(plane_hitray(obj->data, closest, ray),
+				obj, get_objects(NULL, 0), 10);
 	return (color);
 }
 
-int	ray_trace(t_objects *obj, t_ray *ray)
+int	ray_trace(t_objects *obj, t_ray ray)
 {
 	int			color;
 	double		*closest;
 	double		*new;
+	t_objects	*closest_obj;
 
 	closest = NULL;
 	new = NULL;
 	color = create_trgb(0, 160, 32, 240);
 	while (obj)
 	{
-		new = hit_object(obj, ray);
+		new = hit_object(obj, &ray);
 		if ((new && closest == NULL) || (new && closest && new[0] < closest[0]))
 		{
 			if (closest)
 				free(closest);
 			closest = new;
-			color = set_ray_color(ray, closest, obj, color);
+			closest_obj = obj;
 		}
 		else if (new)
 			free(new);
 		obj = obj->next;
 	}
 	if (closest)
+	{
+		color = set_ray_color(&ray, closest, closest_obj, color);
 		free(closest);
+	}
 	return (color);
 }
