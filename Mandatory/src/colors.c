@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:12:33 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 14:35:39 by user             ###   ########.fr       */
+/*   Updated: 2024/07/24 16:56:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ int	avg_color(int color1, int color2, int color3, int color4)
 
 int	avg_color_2(int color1, int color2)
 {
+	if (color1 == 0)
+		return (color2);
+	if (color2 == 0)
+		return (color1);
 	return (create_trgb((((color1 >> 24) & 0xFF) + ((color2 >> 24) & 0xFF)) / 2,
 			(((color1 >> 16) & 0xFF) + ((color2 >> 16) & 0xFF)) / 2,
 			(((color1 >> 8) & 0xFF) + ((color2 >> 8) & 0xFF)) / 2,

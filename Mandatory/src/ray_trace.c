@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/07/23 17:52:05 by user             ###   ########.fr       */
+/*   Updated: 2024/07/24 17:33:23 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,15 @@ int	bounce_ray(t_ray ray, t_objects *hit, int depth, t_objects *main)
 {
 	int			color;
 	double		*t;
-	static int	dep;
 
 	t = NULL;
 	color = data_color(main);
-	if (dep > 3)
-	{
-		dep = 1;
-		return (color);
-	}
 	t = hit_object(hit, &ray);
 	if (t)
 	{
 		color = data_color(hit);
-		dep++;
-		//ray_trace(get_objects(NULL, 0), set_hitpoint(hit, t, &ray));
 		free(t);
 	}
-	dep = 1;
 	return (color);
 }
 
@@ -52,6 +43,7 @@ int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, int samples)
 	color = data_color(obj);
 	while (w_objs)
 	{
+		//samples = 10;
 		if (obj->id != w_objs->id)
 		{
 			while (samples > 0)
