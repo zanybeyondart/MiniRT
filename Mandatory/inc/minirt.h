@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/23 13:42:08 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 22:40:02 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@
 # else
 #  include "../../MLX/minilibx_ogl/mlx.h"
 # endif
-
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 # ifdef __linux__
 #  define W_KEY 119
 #  define S_KEY 115
@@ -128,8 +130,8 @@ int			min(int a, int b);
 
 // plane.c
 t_plane		*set_plane();
-int			set_plane_color(t_plane *plane);
-double		*hit_plane(t_plane *plane, const t_ray *ray);
+int			set_plane_color(t_plane *plane, double *t);
+double		*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep);
 t_ray		plane_hitray(t_plane *plane, double *t, t_ray *ray);
 
 // camera.c
@@ -137,9 +139,10 @@ t_cam		*set_cam();
 
 // sphere.c
 t_sphere	*set_sphere(double x, double y, double z, int color);
-int			set_sphere_color(t_sphere *sphere);
-double		*hit_sphere(t_sphere *sphere, const t_ray *ray);
-int			diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, int samples);
+int			set_sphere_color(t_sphere *sphere, double *t);
+double		*hit_sphere(t_sphere *sphere, const t_ray *ray, double *lim_dep);
+int			diffuse(t_ray ray, t_objects *obj, t_objects *w_objs,
+				double *lim_dep);
 t_ray		sphere_hitray(t_sphere *sphere, double *t, t_ray *ray);
 
 // colors.c
@@ -147,6 +150,13 @@ int			create_trgb(int t, int r, int g, int b);
 int			math_colors(int color1, int color2, int addsub);
 int			avg_color(int color1, int color2, int color3, int color4);
 int			avg_color_2(int color1, int color2);
+int			math_color_by(int color1, double num, int asmd);
+
+// colors_2.c
+int			get_t(int trgb);
+int			get_r(int trgb);
+int			get_g(int trgb);
+int			get_b(int trgb);
 
 // objects.c
 t_objects	*load_objects();
@@ -169,13 +179,14 @@ void		modify_pixel(t_vars *vars, int x, int y);
 int			render(t_vars *vars);
 
 // ray_trace.c
-int			ray_trace(t_objects *obj, t_ray ray);
-double		*hit_object(t_objects *obj, t_ray *ray);
+int			ray_trace(t_objects *obj, t_ray ray, int color, double *lim_dep);
+double		*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
 
 // rand_ray.c
 t_ray		random_ray(t_v3 normal, t_v3 origin);
 
 // data_manage.c
-int			data_color(t_objects *obj);
+int			data_color(t_objects *obj, double *t);
+double		*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
 
 #endif

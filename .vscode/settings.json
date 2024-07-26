@@ -2,6 +2,7 @@
 	"files.associations": {
 		"minirt.h": "c",
 		"array": "c",
-		"vector": "c"
+		"vector": "c",
+		"mlx.h": "c"
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rand_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:36:34 by user              #+#    #+#             */
-/*   Updated: 2024/07/22 17:47:51 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 22:40:53 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,12 @@ double	random_double_custom(void)
 
 t_v3	random_in_unit_sphere(void)
 {
-	t_v3	p;
+	double	r2;
+	double	phi;
 
-	while (1)
-	{
-		p = (t_v3){random_double_custom() * 2.0 - 1.0,
-			random_double_custom() * 2.0 - 1.0,
-			random_double_custom() * 2.0 - 1.0};
-		if (dot(&p, &p) < 1.0)
-			break ;
-	}
-	normalize(&p);
-	return (p);
+	phi = 2 * M_PI * random_double_custom();
+	r2 = random_double_custom();
+	return ((t_v3){cos(phi) * sqrt(r2), sin(phi) * sqrt(r2), sqrt(1.0 - r2)});
 }
 
 t_ray	random_ray(t_v3 normal, t_v3 origin)

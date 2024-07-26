@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_trace.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/07/24 17:33:23 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 22:39:15 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,46 @@ t_ray	set_hitpoint(t_objects *obj, double *t, t_ray *ray)
 	return (plane_hitray(obj->data, t, ray));
 }
 
-int	bounce_ray(t_ray ray, t_objects *hit, int depth, t_objects *main)
+int	bounce_ray(t_ray ray, t_objects *hit, t_objects *main, double *lim_dep)
 {
 	int			color;
 	double		*t;
 
 	t = NULL;
-	color = depth;
-	color = data_color(main);
-	t = hit_object(hit, &ray);
+	color = data_color(main, NULL);
+	lim_dep[0] = 1.5;
+	if (lim_dep[1] > 5)
+		return (color);
+	t = hit_object(hit, &ray, lim_dep);
 	if (t)
 	{
-		color = data_color(hit);
+		color = data_color(hit, t);
+		lim_dep[1]++;
+		color = ray_trace(get_objects(NULL, 0),
+				set_hitpoint(hit, t, &ray), color, lim_dep);
 		free(t);
 	}
 	return (color);
 }
 
-int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, int samples)
+int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, double *lim_dep)
 {
-	int	color;
+	int			color;
+	int			new_color;
+	int			samples;
 
-	color = data_color(obj);
+	color = data_color(obj, NULL);
 	while (w_objs)
 	{
-		//samples = 10;
+		samples = 1;
 		if (obj->id != w_objs->id)
 		{
 			while (samples > 0)
 			{
-				color = avg_color_2(color, bounce_ray(random_ray
-							(ray.direction, ray.origin), w_objs, 0, obj));
+				new_color = bounce_ray(random_ray (ray.direction, ray.origin),
+						w_objs, obj, lim_dep);
+				if (new_color != data_color(obj, NULL))
+					color = avg_color_2(color, new_color);
 				samples--;
 			}
 		}
@@ -60,42 +69,31 @@ int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, int samples)
 	return (color);
 }
 
-double	*hit_object(t_objects *obj, t_ray *ray)
+int	set_ray_color(t_ray *ray, double *closest, t_objects *obj, double *lim_dep)
 {
-	double	*new;
+	int	color;
 
-	new = NULL;
-	if (obj->type == SPHERE)
-		new = hit_sphere(obj->data, ray);
-	else if (obj->type == PLANE)
-		new = hit_plane(obj->data, ray);
-	return (new);
-}
-
-int	set_ray_color(t_ray *ray, double *closest, t_objects *obj, int color)
-{
+	color = 0;
 	if (obj->type == SPHERE)
 		color = diffuse(sphere_hitray(obj->data, closest, ray),
-				obj, get_objects(NULL, 0), 10);
+				obj, get_objects(NULL, 0), lim_dep);
 	else if (obj->type == PLANE)
 		color = diffuse(plane_hitray(obj->data, closest, ray),
-				obj, get_objects(NULL, 0), 10);
+				obj, get_objects(NULL, 0), lim_dep);
 	return (color);
 }
 
-int	ray_trace(t_objects *obj, t_ray ray)
+int	ray_trace(t_objects *obj, t_ray ray, int color, double *lim_dep)
 {
-	int			color;
 	double		*closest;
 	double		*new;
 	t_objects	*closest_obj;
 
 	closest = NULL;
 	new = NULL;
-	color = create_trgb(0, 160, 32, 240);
 	while (obj)
 	{
-		new = hit_object(obj, &ray);
+		new = hit_object(obj, &ray, lim_dep);
 		if ((new && closest == NULL) || (new && closest && new[0] < closest[0]))
 		{
 			if (closest)
@@ -108,9 +106,8 @@ int	ray_trace(t_objects *obj, t_ray ray)
 		obj = obj->next;
 	}
 	if (closest)
-	{
-		color = set_ray_color(&ray, closest, closest_obj, color);
+		color = set_ray_color(&ray, closest, closest_obj, lim_dep);
+	if (closest)
 		free(closest);
-	}
 	return (color);
 }

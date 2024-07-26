@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:56:20 by user              #+#    #+#             */
-/*   Updated: 2024/07/24 17:01:12 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 19:55:01 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,31 @@ t_objects	*load_objects()
 	t_objects	*obj;
 	t_objects	*obj2;
 	t_objects	*obj3;
+	t_objects	*obj4;
 
 	obj = ft_smart_malloc(sizeof(t_objects));
 	obj2 = ft_smart_malloc(sizeof(t_objects));
 	obj3 = ft_smart_malloc(sizeof(t_objects));
+	obj4 = ft_smart_malloc(sizeof(t_objects));
 	obj->data = set_sphere(-2, 0, 4, create_trgb(0, 0, 0, 255));
 	obj->type = SPHERE;
 	obj->id = 1;
-	obj2->data = set_plane();
-	obj2->type = PLANE;
+	obj->next = NULL;
+	obj2->data = set_sphere(2, 0, 4, create_trgb(0, 0, 255, 0));
+	obj2->type = SPHERE;
 	obj2->id = 2;
+	obj2->next = NULL;
 	obj->next = obj2;
-	//obj2->next = NULL;
-	obj3->data = set_sphere(2, 0, 4, create_trgb(0, 255, 0, 0));
+	obj3->data = set_sphere(0, 2, 4, create_trgb(0, 255, 0, 0));
 	obj3->type = SPHERE;
 	obj3->id = 3;
 	obj3->next = NULL;
 	obj2->next = obj3;
+	obj4->data = set_plane();
+	obj4->type = PLANE;
+	obj4->id = 4;
+	obj4->next = NULL;
+	obj3->next = obj4;
 	get_objects(obj, 1);
 	return (obj);
 }

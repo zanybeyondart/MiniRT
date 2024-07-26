@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/24 11:37:58 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 22:40:33 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_sphere	*set_sphere(double x, double y, double z, int color)
 	return (sphere);
 }
 
-int	set_sphere_color(t_sphere *sphere)
+int	set_sphere_color(t_sphere *sphere, double *t)
 {
 	return (sphere->color);
 }
@@ -48,7 +48,7 @@ t_ray	sphere_hitray(t_sphere *sphere, double *t, t_ray *ray)
 	return (final_ray);
 }
 
-double	*hit_sphere(t_sphere *sphere, const t_ray *ray)
+double	*hit_sphere(t_sphere *sphere, const t_ray *ray, double *lim_dep)
 {
 	t_v3	l;
 	double	tca;
@@ -67,5 +67,10 @@ double	*hit_sphere(t_sphere *sphere, const t_ray *ray)
 	t = ft_smart_malloc(sizeof(double) * 2);
 	t[0] = tca - thc;
 	t[1] = tca + thc;
+	if (lim_dep[0] && t[0] > lim_dep[0])
+	{
+		free (t);
+		return (NULL);
+	}
 	return (t);
 }

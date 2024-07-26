@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/07/23 13:10:53 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 22:40:39 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ t_plane	*set_plane()
 	plane->normal.x = 0;
 	plane->normal.y = 1;
 	plane->normal.z = 0;
-	plane->color = create_trgb(0, 0, 254, 0);
+	plane->color = create_trgb(0, 150, 150, 150);
 	return (plane);
 }
 
-int	set_plane_color(t_plane *plane)
+int	set_plane_color(t_plane *plane, double *t)
 {
 	return (plane->color);
 }
 
-double	*hit_plane(t_plane *plane, const t_ray *ray)
+double	*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep)
 {
 	double	vd;
 	double	v0;
@@ -47,7 +47,7 @@ double	*hit_plane(t_plane *plane, const t_ray *ray)
 	t = ft_smart_malloc(sizeof(double) * 2);
 	t[0] = v0 / vd;
 	t[1] = 0;
-	if (t[0] <= 0)
+	if (t[0] <= 0 || (lim_dep[0] && t[0] > lim_dep[0]))
 	{
 		free(t);
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:12:33 by user              #+#    #+#             */
-/*   Updated: 2024/07/24 16:56:14 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 18:04:13 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,21 @@ int	math_colors(int color1, int color2, int asmd)
 	return (1);
 }
 
+int	math_color_by(int color1, double num, int md)
+{
+	if (md == 0)
+		return (create_trgb(((color1 >> 24) & 0xFF) * num,
+				((color1 >> 16) & 0xFF) * num,
+				((color1 >> 8) & 0xFF) * num,
+				(color1 & 0xFF) * num));
+	else if (md == 1)
+		return (create_trgb(((color1 >> 24) & 0xFF) / num,
+				((color1 >> 16) & 0xFF) / num,
+				((color1 >> 8) & 0xFF) / num,
+				(color1 & 0xFF) / num));
+	return (1);
+}
+
 int	avg_color(int color1, int color2, int color3, int color4)
 {
 	return (create_trgb((((color1 >> 24) & 0xFF) + ((color2 >> 24) & 0xFF)
@@ -67,12 +82,8 @@ int	avg_color(int color1, int color2, int color3, int color4)
 
 int	avg_color_2(int color1, int color2)
 {
-	if (color1 == 0)
-		return (color2);
-	if (color2 == 0)
-		return (color1);
-	return (create_trgb((((color1 >> 24) & 0xFF) + ((color2 >> 24) & 0xFF)) / 2,
-			(((color1 >> 16) & 0xFF) + ((color2 >> 16) & 0xFF)) / 2,
-			(((color1 >> 8) & 0xFF) + ((color2 >> 8) & 0xFF)) / 2,
-			((color1 & 0xFF) + (color2 & 0xFF) / 2)));
+	return (create_trgb((get_t(color1) + get_t(color2)) / 2,
+			(get_r(color1) + get_r(color2)) / 2,
+			(get_g(color1) + get_g(color2)) / 2,
+			((get_b(color1) + get_b(color2)) / 2)));
 }

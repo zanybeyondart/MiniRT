@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/07/23 14:45:00 by user             ###   ########.fr       */
+/*   Updated: 2024/07/26 19:48:38 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	render(t_vars *vars)
 			}
 			i++;
 		}
-		anti_alias(vars);
+		// anti_alias(vars);
 	}
 	mlx_do_sync(vars->mlx);
 	return (1);
