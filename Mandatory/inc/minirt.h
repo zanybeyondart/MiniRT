@@ -16,19 +16,30 @@
 # include <stdio.h>
 # include "../../Libft/libft.h"
 # include <math.h>
+# include <stdint.h>
 # ifdef __linux__
 #  include "../../MLX/minilibx_linux/mlx.h"
 # else
 #  include "../../MLX/minilibx_ogl/mlx.h"
 # endif
 
-# define W_KEY	13
-# define S_KEY	1
-# define UP_KEY	126
-# define DOWN_KEY	125
-# define RIGHT_KEY	124
-# define LEFT_KEY	123
-# define ESC	53
+# ifdef __linux__
+#  define W_KEY 119
+#  define S_KEY 115
+#  define UP_KEY 65362
+#  define DOWN_KEY 65364
+#  define RIGHT_KEY 65363
+#  define LEFT_KEY 65361
+#  define ESC 65307
+# else
+#  define W_KEY	13
+#  define S_KEY	1
+#  define UP_KEY	126
+#  define DOWN_KEY	125
+#  define RIGHT_KEY	124
+#  define LEFT_KEY	123
+#  define ESC	53
+# endif
 
 // SETTINGS
 # define WIDTH	500

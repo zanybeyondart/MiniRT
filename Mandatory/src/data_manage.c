@@ -18,4 +18,5 @@ int	data_color(t_objects *obj)
 		return (set_sphere_color(obj->data));
 	else if (obj->type == PLANE)
 		return (set_plane_color(obj->data));
+	return (0);
 }

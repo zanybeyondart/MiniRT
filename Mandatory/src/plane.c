@@ -57,7 +57,6 @@ double	*hit_plane(t_plane *plane, const t_ray *ray)
 
 t_ray	plane_hitray(t_plane *plane, double *t, t_ray *ray)
 {
-	t_v3		n;
 	t_v3		rayt;
 	t_ray		final_ray;
 

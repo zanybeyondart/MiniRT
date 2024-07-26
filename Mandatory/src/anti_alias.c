@@ -16,7 +16,9 @@ int	store_render(int update, int x, int y, int color)
 {
 	static int	image[WIDTH][HEIGHT];
 
-	if (update == 1 && &image[x][y])
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return (0);
+	if (update == 1)
 	{
 		image[x][y] = color;
 		return (image[x][y]);

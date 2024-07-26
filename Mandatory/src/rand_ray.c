@@ -25,6 +25,7 @@ uint32_t	rand_custom(void)
 {
 	uint32_t	new_seed;
 
+	new_seed = 0;
 	new_seed = seed(new_seed, 0);
 	new_seed = (SEED_A * new_seed + SEED_C) % SEED_M;
 	seed(new_seed, 1);

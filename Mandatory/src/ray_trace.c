@@ -18,6 +18,7 @@ t_ray	set_hitpoint(t_objects *obj, double *t, t_ray *ray)
 		return (sphere_hitray(obj->data, t, ray));
 	else if (obj->type == PLANE)
 		return (plane_hitray(obj->data, t, ray));
+	return (plane_hitray(obj->data, t, ray));
 }
 
 int	bounce_ray(t_ray ray, t_objects *hit, int depth, t_objects *main)
@@ -26,6 +27,7 @@ int	bounce_ray(t_ray ray, t_objects *hit, int depth, t_objects *main)
 	double		*t;
 
 	t = NULL;
+	color = depth;
 	color = data_color(main);
 	t = hit_object(hit, &ray);
 	if (t)

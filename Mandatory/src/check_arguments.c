@@ -14,7 +14,12 @@
 
 int	check_arguments(int ac, char **av)
 {
+	char **useles;
 	if (ac < 2)
 		return (1);
+	useles = av;
+	useles = NULL;
+	useles = ft_smart_malloc(10);
+	free (useles);
 	return (0);
 }
