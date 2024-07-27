@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/07/26 22:39:15 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/27 00:56:30 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_ray	set_hitpoint(t_objects *obj, double *t, t_ray *ray)
 		return (sphere_hitray(obj->data, t, ray));
 	else if (obj->type == PLANE)
 		return (plane_hitray(obj->data, t, ray));
+	else if (obj->type == CYLINDER)
+		return (cylinder_hitray(obj->data, t, ray));
 	return (plane_hitray(obj->data, t, ray));
 }
 
@@ -28,8 +30,8 @@ int	bounce_ray(t_ray ray, t_objects *hit, t_objects *main, double *lim_dep)
 
 	t = NULL;
 	color = data_color(main, NULL);
-	lim_dep[0] = 1.5;
-	if (lim_dep[1] > 5)
+	lim_dep[0] = DIFFUSE_RAY_LIMIT;
+	if (lim_dep[1] > DIFFUSE_RAY_BOUNCES)
 		return (color);
 	t = hit_object(hit, &ray, lim_dep);
 	if (t)
@@ -52,7 +54,7 @@ int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, double *lim_dep)
 	color = data_color(obj, NULL);
 	while (w_objs)
 	{
-		samples = 1;
+		samples = SAMPLES;
 		if (obj->id != w_objs->id)
 		{
 			while (samples > 0)
@@ -79,6 +81,9 @@ int	set_ray_color(t_ray *ray, double *closest, t_objects *obj, double *lim_dep)
 				obj, get_objects(NULL, 0), lim_dep);
 	else if (obj->type == PLANE)
 		color = diffuse(plane_hitray(obj->data, closest, ray),
+				obj, get_objects(NULL, 0), lim_dep);
+	else if (obj->type == CYLINDER)
+		color = diffuse(cylinder_hitray(obj->data, closest, ray),
 				obj, get_objects(NULL, 0), lim_dep);
 	return (color);
 }

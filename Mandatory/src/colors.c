@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:12:33 by user              #+#    #+#             */
-/*   Updated: 2024/07/26 18:04:13 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/27 00:33:11 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int	math_colors(int color1, int color2, int asmd)
 	return (1);
 }
 
-int	math_color_by(int color1, double num, int md)
+int	math_color_by(int color1, double num, int muldiv)
 {
-	if (md == 0)
+	if (muldiv == 0)
 		return (create_trgb(((color1 >> 24) & 0xFF) * num,
 				((color1 >> 16) & 0xFF) * num,
 				((color1 >> 8) & 0xFF) * num,
 				(color1 & 0xFF) * num));
-	else if (md == 1)
+	else if (muldiv == 1)
 		return (create_trgb(((color1 >> 24) & 0xFF) / num,
 				((color1 >> 16) & 0xFF) / num,
 				((color1 >> 8) & 0xFF) / num,

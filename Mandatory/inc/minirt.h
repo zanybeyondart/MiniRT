@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/26 22:40:02 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/27 00:57:31 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@
 # include "../../Libft/libft.h"
 # include <math.h>
 # include <stdint.h>
+
 # ifdef __linux__
 #  include "../../MLX/minilibx_linux/mlx.h"
 # else
 #  include "../../MLX/minilibx_ogl/mlx.h"
 # endif
+
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
+
 # ifdef __linux__
 #  define W_KEY 119
 #  define S_KEY 115
@@ -33,6 +36,7 @@
 #  define RIGHT_KEY 65363
 #  define LEFT_KEY 65361
 #  define ESC 65307
+
 # else
 #  define W_KEY	13
 #  define S_KEY	1
@@ -47,6 +51,11 @@
 # define WIDTH	500
 # define HEIGHT	500
 # define THRESHOLD	1
+
+// DIFFUSE RAY SETTINGS
+# define SAMPLES 3
+# define DIFFUSE_RAY_LIMIT 1
+# define DIFFUSE_RAY_BOUNCES 3
 
 // RANDOM SEED GEN
 # define SEED_A 1664525
@@ -87,10 +96,27 @@ typedef struct s_plane
 	int		color;
 }	t_plane;
 
+typedef struct s_cylinder
+{
+	t_v3	pos;
+	t_v3	normal;
+	double	radius;
+	double	height;
+	int		color;
+}	t_cylinder;
+
+typedef struct s_ambient_light
+{
+	double	intensity;
+	int		color;
+}	t_ambient_light;
+
 typedef enum e_objs
 {
 	SPHERE,
 	PLANE,
+	CYLINDER,
+	AMBI_LIGHT,
 }	t_objs;
 
 typedef struct s_objects
@@ -112,81 +138,94 @@ typedef struct s_vars
 }	t_vars;
 
 // minirt.c
-int			intersect(t_vars *vars, t_v3 pixel);
+int				intersect(t_vars *vars, t_v3 pixel);
 
 // check_arguments.c
-int			check_arguments(int ac, char **av);
+int				check_arguments(int ac, char **av);
 
 // normals.c
-void		normalize(t_v3 *vector);
+void			normalize(t_v3 *vector);
 
 
 // vec3_maths.c
-t_v3		subtract_vectors(const t_v3 *A, const t_v3 *B);
-t_v3		add_vectors(const t_v3 *A, const t_v3 *B);
-double		dot(const t_v3 *A, const t_v3 *B);
-int			cam_normal(t_vars *vars, char a);
-int			min(int a, int b);
+t_v3			subtract_vectors(const t_v3 *A, const t_v3 *B);
+t_v3			add_vectors(const t_v3 *A, const t_v3 *B);
+double			dot(const t_v3 *A, const t_v3 *B);
+int				cam_normal(t_vars *vars, char a);
+int				min(int a, int b);
 
 // plane.c
-t_plane		*set_plane();
-int			set_plane_color(t_plane *plane, double *t);
-double		*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep);
-t_ray		plane_hitray(t_plane *plane, double *t, t_ray *ray);
+t_plane			*set_plane();
+int				set_plane_color(t_plane *plane, double *t);
+double			*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep);
+t_ray			plane_hitray(t_plane *plane, double *t, t_ray *ray);
 
 // camera.c
-t_cam		*set_cam();
+t_cam			*set_cam();
 
 // sphere.c
-t_sphere	*set_sphere(double x, double y, double z, int color);
-int			set_sphere_color(t_sphere *sphere, double *t);
-double		*hit_sphere(t_sphere *sphere, const t_ray *ray, double *lim_dep);
-int			diffuse(t_ray ray, t_objects *obj, t_objects *w_objs,
-				double *lim_dep);
-t_ray		sphere_hitray(t_sphere *sphere, double *t, t_ray *ray);
+t_sphere		*set_sphere(double x, double y, double z, int color);
+int				set_sphere_color(t_sphere *sphere, double *t);
+double			*hit_sphere(t_sphere *sphere, const t_ray *ray,
+					double *lim_dep);
+int				diffuse(t_ray ray, t_objects *obj, t_objects *w_objs,
+					double *lim_dep);
+t_ray			sphere_hitray(t_sphere *sphere, double *t, t_ray *ray);
 
 // colors.c
-int			create_trgb(int t, int r, int g, int b);
-int			math_colors(int color1, int color2, int addsub);
-int			avg_color(int color1, int color2, int color3, int color4);
-int			avg_color_2(int color1, int color2);
-int			math_color_by(int color1, double num, int asmd);
+int				create_trgb(int t, int r, int g, int b);
+int				math_colors(int color1, int color2, int addsub);
+int				avg_color(int color1, int color2, int color3, int color4);
+int				avg_color_2(int color1, int color2);
+int				math_color_by(int color1, double num, int muldiv);
 
 // colors_2.c
-int			get_t(int trgb);
-int			get_r(int trgb);
-int			get_g(int trgb);
-int			get_b(int trgb);
+int				get_t(int trgb);
+int				get_r(int trgb);
+int				get_g(int trgb);
+int				get_b(int trgb);
 
 // objects.c
-t_objects	*load_objects();
-t_objects	*get_objects(t_objects *obj, int change);
+t_objects		*load_objects();
+t_objects		*get_objects(t_objects *obj, int change);
 
 // exit.c
-void		free_objects(t_objects *obj);
-void		free_program(t_vars *vars);
-int			quit(t_vars *vars);
+void			free_objects(t_objects *obj);
+void			free_program(t_vars *vars);
+int				quit(t_vars *vars);
 
 // controls.c
-int			events(int keycode, t_vars *vars);
+int				events(int keycode, t_vars *vars);
 
 // anti_alias.c
-void		anti_alias(t_vars *vars);
-int			store_render(int update, int x, int y, int color);
-void		modify_pixel(t_vars *vars, int x, int y);
+void			anti_alias(t_vars *vars);
+int				store_render(int update, int x, int y, int color);
+void			modify_pixel(t_vars *vars, int x, int y);
 
 // render.c
-int			render(t_vars *vars);
+int				render(t_vars *vars);
 
 // ray_trace.c
-int			ray_trace(t_objects *obj, t_ray ray, int color, double *lim_dep);
-double		*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
+int				ray_trace(t_objects *obj, t_ray ray, int color,
+					double *lim_dep);
+double			*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
 
 // rand_ray.c
-t_ray		random_ray(t_v3 normal, t_v3 origin);
+t_ray			random_ray(t_v3 normal, t_v3 origin);
 
 // data_manage.c
-int			data_color(t_objects *obj, double *t);
-double		*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
+int				data_color(t_objects *obj, double *t);
+double			*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
+void			*return_type(t_objects	*world, t_objs type);
+
+// lights.c
+t_ambient_light	*set_ambient_light();
+int				ambi_int(t_objects *world);
+
+// cylinder.c
+double* hit_cylinder(t_cylinder *cylinder, const t_ray *ray, double *lim_dep);
+t_ray cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray);
+int	set_cylinder_color(t_cylinder *cylinder, double *t);
+t_cylinder	*set_cylinder(double x, double y, double z, int color);
 
 #endif
