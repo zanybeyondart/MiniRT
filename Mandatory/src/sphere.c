@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/26 22:40:33 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 05:24:14 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_sphere	*set_sphere(double x, double y, double z, int color)
 	sphere = ft_smart_malloc(sizeof(t_sphere));
 	sphere->pos.x = x;
 	sphere->pos.y = y;
-	sphere->pos.z = -z;
+	sphere->pos.z = z;
 	sphere->radius = 2;
 	sphere->color = color;
 	return (sphere);

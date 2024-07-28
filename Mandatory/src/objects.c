@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:56:20 by user              #+#    #+#             */
-/*   Updated: 2024/07/27 00:59:04 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 05:47:11 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ t_objects	*load_objects()
 	t_objects	*obj4;
 
 	obj = NULL;
-	obj = add_to_list(obj, set_sphere(-2, 0, 4, create_trgb(0, 0, 0, 255)), SPHERE, 1);
-	obj = add_to_list(obj, set_sphere(2, 0, 4, create_trgb(0, 0, 225, 0)), SPHERE, 2);
-	obj = add_to_list(obj, set_sphere(0, 2, 4, create_trgb(0, 225, 0, 0)), SPHERE, 3);
+	obj = add_to_list(obj, set_sphere(-2, 0, -4, create_trgb(0, 0, 0, 255)), SPHERE, 1);
+	obj = add_to_list(obj, set_sphere(2, 0, -4, create_trgb(0, 0, 225, 0)), SPHERE, 2);
+	obj = add_to_list(obj, set_sphere(0, 2, -4, create_trgb(0, 225, 0, 0)), SPHERE, 3);
 	obj = add_to_list(obj, set_plane(), PLANE, 4);
 	obj = add_to_list(obj, set_ambient_light(), AMBI_LIGHT, 5);
-	obj = add_to_list(obj, set_cylinder(0, 0, 2, create_trgb(0, 225, 0, 225)), CYLINDER, 6);
+	obj = add_to_list(obj, set_cylinder(0, 0, 0, create_trgb(0, 225, 0, 225)), CYLINDER, 6);
 	get_objects(obj, 1);
 	return (obj);
 }

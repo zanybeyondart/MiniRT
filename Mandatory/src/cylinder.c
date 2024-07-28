@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/27 00:59:37 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 19:17:38 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ t_cylinder	*set_cylinder(double x, double y, double z, int color)
 	cylinder->pos.x = x;
 	cylinder->pos.y = y;
 	cylinder->pos.z = z;
+	cylinder->normal.x = 0;
+	cylinder->normal.y = 1;
+	cylinder->normal.z = 0;
 	cylinder->radius = 1;
-	cylinder->height = 1;
+	cylinder->height = 5;
 	cylinder->color = color;
 	return (cylinder);
 }
@@ -31,113 +34,94 @@ int	set_cylinder_color(t_cylinder *cylinder, double *t)
 	return (cylinder->color);
 }
 
+t_v3	hit_cord(const t_ray *ray, double *t)
+{
+	t_v3	hit_point;
 
-t_v3 cross(const t_v3 *a, const t_v3 *b) {
-    t_v3 result;
-    result.x = a->y * b->z - a->z * b->y;
-    result.y = a->z * b->x - a->x * b->z;
-    result.z = a->x * b->y - a->y * b->x;
-    return result;
+	hit_point.x = ray->origin.x + ray->direction.x * t[0];
+	hit_point.y = ray->origin.y + ray->direction.y * t[0];
+	hit_point.z = ray->origin.z + ray->direction.z * t[0];
+	return (hit_point);
 }
 
-t_v3 scale_vector(const t_v3 *v, double scale) {
-    t_v3 result;
-    result.x = v->x * scale;
-    result.y = v->y * scale;
-    result.z = v->z * scale;
-    return result;
+t_ray	cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray)
+{
+	t_v3	hit_point;
+	t_v3	n;
+	t_v3	cylinder_origin;
+	t_ray	final_ray;
+
+	hit_point.x = ray->origin.x + ray->direction.x * t[0];
+	hit_point.y = ray->origin.y + ray->direction.y * t[0];
+	hit_point.z = ray->origin.z + ray->direction.z * t[0];
+	cylinder_origin.x = cylinder->pos.x;
+	cylinder_origin.y = cylinder->pos.y;
+	cylinder_origin.z = hit_point.z;
+	n = subtract_vectors(&hit_point, &cylinder_origin);
+	normalize(&n);
+	final_ray.origin = hit_point;
+	final_ray.direction = n;
+	return (final_ray);
 }
 
-t_ray cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray) {
-    t_v3 hit_point;
-    t_v3 n;
-    t_ray final_ray;
+int	is_in_bounds(t_v3 hit_point, t_cylinder *cylinder, const t_ray *ray)
+{
+	t_v3	p1;
+	t_v3	p2;
+	t_v3	other_end[2];
 
-    // Calculate the intersection point
-    hit_point.x = ray->origin.x + ray->direction.x * t[0];
-    hit_point.y = ray->origin.y + ray->direction.y * t[0];
-    hit_point.z = ray->origin.z + ray->direction.z * t[0];
-
-    // Calculate the vector from the base of the cylinder to the hit point
-    t_v3 hit_to_base = subtract_vectors(&hit_point, &cylinder->pos);
-
-    // Project the hit_to_base vector onto the cylinder's axis
-    double projection_length = dot(&hit_to_base, &cylinder->normal);
-    t_v3 projection = scale_vector(&cylinder->normal, projection_length);
-
-    // Calculate the normal at the intersection point
-    t_v3 base_to_hit = subtract_vectors(&hit_to_base, &projection);
-    normalize(&base_to_hit);
-
-    n = base_to_hit;
-
-    // Set the final ray's origin and direction
-    final_ray.origin = hit_point;
-    final_ray.direction = n;
-
-    return final_ray;
+	other_end[0] = scale_vector(&cylinder->normal, cylinder->height);
+	other_end[1] = add_vectors(&other_end[0], &cylinder->pos);
+	p1 = subtract_vectors(&cylinder->pos, &hit_point);
+	p2 = subtract_vectors(&other_end[1], &hit_point);
+	return (dot(&cylinder->normal, &p1) > 0 && dot(&cylinder->normal, &p2) < 0);
 }
 
-t_v3 rotate_vector(const t_v3 *v, const t_v3 *k, double theta) {
-    double cos_theta = cos(theta);
-    double sin_theta = sin(theta);
-    t_v3 term1 = scale_vector(v, cos_theta);
-	t_v3 croskv = cross(k, v);
-    t_v3 term2 = scale_vector(&croskv, sin_theta);
-    t_v3 term3 = scale_vector(k, dot(k, v) * (1 - cos_theta));
-	t_v3 term4 = add_vectors(&term1, &term2);
-    return add_vectors(&term4, &term3);
+//double	*check_cap(t_cylinder *cylinder, t_ray *ray, t_v3 cap_center)
+//{
+//	double	t;
+//	t_v3	intersection_point;
+//	t_v3	t_a;
+
+//	t_a = subtract_vectors(&cap_center, &ray->origin);
+//	t = dot(&t_a, &cylinder->normal)/ dot(&ray->direction, &cylinder->normal);
+//	if (t < 0)
+//		return (NULL);
+//	intersection_point = add_vectors(&ray->origin, scale_vector(&ray->direction, t));
+
+//	// Check if the intersection point is within the cap's radius
+//	if (dot(subtract_vectors(&intersection_point, &cap_center), subtract_vectors(&intersection_point, &cap_center)) <= cylinder->radius * cylinder->radius) {
+//	    return t;
+//	}
+
+//	return -1;
+//}
+
+double	*hit_cylinder(t_cylinder *cylinder, const t_ray *ray, double *lim_dep)
+{
+	t_v3	cal_a[2];
+	t_v3	dlt_p[2];
+	t_v3	cal_c;
+	double	*t;
+	double	*t_cap;
+
+	t = NULL;
+	cal_a[0] = scale_vector(&cylinder->normal,
+			dot(&ray->direction, &cylinder->normal));
+	cal_a[1] = subtract_vectors(&cal_a[0], &ray->direction);
+	dlt_p[0] = subtract_vectors(&cylinder->pos, &ray->origin);
+	dlt_p[1] = scale_vector(&cylinder->normal,
+			dot(&dlt_p[0], &cylinder->normal));
+	cal_c = subtract_vectors(&dlt_p[1], &dlt_p[0]);
+	t = solve_quadratic_eq(dot(&cal_a[1], &cal_a[1]),
+			2 * dot(&cal_a[1], &cal_c), dot(&cal_c, &cal_c)
+			- (cylinder->radius * cylinder->radius), lim_dep);
+	//t_cap = check_caps();
+	if (t && !is_in_bounds(hit_cord(ray, t), cylinder, ray))
+	{
+		free(t);
+		return (NULL);
+	}
+	return (t);
 }
 
-
-double* hit_cylinder(t_cylinder *cylinder, const t_ray *ray, double *lim_dep) {
-    // Translate the ray origin
-    t_v3 oc = subtract_vectors(&ray->origin, &cylinder->pos);
-
-    // Rotate the ray direction and translated origin to align cylinder axis with y-axis
-    t_v3 y_axis = {0, 1, 0};
-    t_v3 axis = cylinder->normal;
-    t_v3 cross_product = cross(&axis, &y_axis);
-    double cos_theta = dot(&axis, &y_axis);
-    double sin_theta = sqrt(1 - cos_theta * cos_theta);
-
-    t_v3 rotated_origin = rotate_vector(&oc, &cross_product, acos(cos_theta));
-    t_v3 rotated_direction = rotate_vector(&ray->direction, &cross_product, acos(cos_theta));
-
-    // Perform standard ray-cylinder intersection in the rotated coordinate system
-    double a = rotated_direction.x * rotated_direction.x + rotated_direction.z * rotated_direction.z;
-    double b = 2.0 * (rotated_origin.x * rotated_direction.x + rotated_origin.z * rotated_direction.z);
-    double c = rotated_origin.x * rotated_origin.x + rotated_origin.z * rotated_origin.z - cylinder->radius * cylinder->radius;
-    double discriminant = b * b - 4 * a * c;
-
-    if (discriminant < 0) return NULL;
-
-    double t0 = (-b - sqrt(discriminant)) / (2.0 * a);
-    double t1 = (-b + sqrt(discriminant)) / (2.0 * a);
-
-    double *t = (double *)malloc(sizeof(double) * 2);
-    t[0] = t0;
-    t[1] = t1;
-
-    double y0 = rotated_origin.y + t0 * rotated_direction.y;
-    double y1 = rotated_origin.y + t1 * rotated_direction.y;
-
-    if ((y0 < 0 || y0 > cylinder->height) && (y1 < 0 || y1 > cylinder->height)) {
-        free(t);
-        return NULL;
-    }
-
-    if (y0 < 0 || y0 > cylinder->height) {
-        t[0] = t1;
-    }
-    if (y1 < 0 || y1 > cylinder->height) {
-        t[1] = t0;
-    }
-
-    if (lim_dep[0] && t[0] > lim_dep[0]) {
-        free(t);
-        return NULL;
-    }
-
-    return t;
-}

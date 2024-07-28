@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:43:56 by user              #+#    #+#             */
-/*   Updated: 2024/07/27 00:56:06 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 02:24:10 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ double	*hit_object(t_objects *obj, t_ray *ray, double *lim_dep)
 		new = hit_sphere(obj->data, ray, lim_dep);
 	else if (obj->type == PLANE)
 		new = hit_plane(obj->data, ray, lim_dep);
-		else if (obj->type == CYLINDER)
+	else if (obj->type == CYLINDER)
 		new = hit_cylinder(obj->data, ray, lim_dep);
 	return (new);
 }

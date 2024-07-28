@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/27 00:57:31 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 15:36:20 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@
 # define THRESHOLD	1
 
 // DIFFUSE RAY SETTINGS
-# define SAMPLES 3
+# define SAMPLES 1
 # define DIFFUSE_RAY_LIMIT 1
-# define DIFFUSE_RAY_BOUNCES 3
+# define DIFFUSE_RAY_BOUNCES 0
 
 // RANDOM SEED GEN
 # define SEED_A 1664525
@@ -148,11 +148,19 @@ void			normalize(t_v3 *vector);
 
 
 // vec3_maths.c
-t_v3			subtract_vectors(const t_v3 *A, const t_v3 *B);
-t_v3			add_vectors(const t_v3 *A, const t_v3 *B);
-double			dot(const t_v3 *A, const t_v3 *B);
+t_v3			subtract_vectors(const t_v3 *a, const t_v3 *b);
+t_v3			add_vectors(const t_v3 *a, const t_v3 *b);
+double			dot(const t_v3 *a, const t_v3 *b);
 int				cam_normal(t_vars *vars, char a);
 int				min(int a, int b);
+double			min_double(double a, double b);
+
+// vec3_maths_2.c
+t_v3			cross(const t_v3 *a, const t_v3 *b);
+t_v3			scale_vector(const t_v3 *v, double scale);
+double			*solve_quadratic_eq(double a, double b, double c,
+					double *lim_dep);
+double			vec_len(const t_v3 *a, const t_v3 *b);
 
 // plane.c
 t_plane			*set_plane();
@@ -162,6 +170,7 @@ t_ray			plane_hitray(t_plane *plane, double *t, t_ray *ray);
 
 // camera.c
 t_cam			*set_cam();
+int				cam_normal(t_vars *vars, char a);
 
 // sphere.c
 t_sphere		*set_sphere(double x, double y, double z, int color);
@@ -223,9 +232,12 @@ t_ambient_light	*set_ambient_light();
 int				ambi_int(t_objects *world);
 
 // cylinder.c
-double* hit_cylinder(t_cylinder *cylinder, const t_ray *ray, double *lim_dep);
-t_ray cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray);
-int	set_cylinder_color(t_cylinder *cylinder, double *t);
-t_cylinder	*set_cylinder(double x, double y, double z, int color);
+double			*hit_cylinder(t_cylinder *cylinder, const t_ray *ray,
+					double *lim_dep);
+t_ray			cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray);
+int				set_cylinder_color(t_cylinder *cylinder, double *t);
+t_cylinder		*set_cylinder(double x, double y, double z, int color);
+
+double	*solve_quadratic_eq_2(double a, double b, double c, double *lim_dep, t_cylinder *cylinder, const t_ray *ray);
 
 #endif
