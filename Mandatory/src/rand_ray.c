@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:36:34 by user              #+#    #+#             */
-/*   Updated: 2024/07/26 22:40:53 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 19:24:25 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ray	random_ray(t_v3 normal, t_v3 origin)
 	t_ray	ray;
 
 	random_dir = random_in_unit_sphere();
-	if (dot(&random_dir, &normal) < 0.0)
+	if (dot(random_dir, normal) < 0.0)
 		random_dir = (t_v3){-random_dir.x, -random_dir.y, -random_dir.z};
 	ray.direction = random_dir;
 	ray.origin = origin;

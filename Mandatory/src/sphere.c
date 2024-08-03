@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/28 05:24:14 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 19:24:43 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ double	*hit_sphere(t_sphere *sphere, const t_ray *ray, double *lim_dep)
 	double	d2;
 	double	*t;
 
-	l = subtract_vectors(&ray->origin, &sphere->pos);
-	tca = dot(&l, &ray->direction);
+	l = subtract_vectors(ray->origin, sphere->pos);
+	tca = dot(l, ray->direction);
 	if (tca < 0)
 		return (NULL);
-	d2 = dot(&l, &l) - tca * tca;
+	d2 = dot(l, l) - tca * tca;
 	if (d2 > sphere->radius * sphere->radius)
 		return (NULL);
 	thc = sqrtf(sphere->radius * sphere->radius - d2);

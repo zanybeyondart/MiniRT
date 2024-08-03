@@ -1,9 +1,8 @@
 NAME = miniRT
-# CFLAGS = -Werror -Wall -Wextra
-CFLAGS = 
-DEBUG_AD = -fsanitize=address
+#CFLAGS = -Werror -Wall -Wextra
+#DEBUG_AD = -fsanitize=address
 DEBUG_LEAK = -fsanitize=leak
-SRC = $(wildcard Mandatory/src/*.c) $(wildcard Mandatory/src/vec3_maths/*.c)
+SRC = $(wildcard Mandatory/src/*.c) $(wildcard Mandatory/src/vec3_maths/*.c) $(wildcard Mandatory/src/cylinder/*.c)
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
 LIBFT_LIB = $(LIBFT_DIR)/libft.a
@@ -29,7 +28,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIBFT_LIB)
 	@echo "$(GREEN)MiniRT: $(WHITE)Linking $(NAME)$(RESET)"
 	@cd $(MLX_DIR) && make -s
-	@$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft $(MLX_FLAGS) -o $@
+	@$(CC) $(CFLAGS) $(DEBUG_AD) $(OBJ) -L$(LIBFT_DIR) -lft $(MLX_FLAGS) -o $@
 
 %.o: %.c
 	@echo "$(GREEN)MiniRT:$(WHITE) Compiling $(notdir $<)$(RESET)"
@@ -51,6 +50,9 @@ fclean: clean
 	@echo "$(GREEN)MiniRT: $(WHITE)Removing executable$(RESET)"
 	@rm -f $(NAME)
 	@echo "$(GREEN)MiniRT: $(WHITE)Executable removed successfully$(RESET)"
+
+valgrind: re
+	valgrind --leak-check=full ./$(NAME)
 
 re: fclean all
 

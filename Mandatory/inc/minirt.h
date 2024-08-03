@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/07/28 15:36:20 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/03 13:28:30 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@ typedef struct s_cam
 	t_v3	normal;
 	double	fov;
 }	t_cam;
+
+typedef struct s_matrix
+{
+	double	d[4][4];
+}	t_matrix;
 
 typedef struct s_ray
 {
@@ -146,21 +151,23 @@ int				check_arguments(int ac, char **av);
 // normals.c
 void			normalize(t_v3 *vector);
 
-
 // vec3_maths.c
-t_v3			subtract_vectors(const t_v3 *a, const t_v3 *b);
-t_v3			add_vectors(const t_v3 *a, const t_v3 *b);
-double			dot(const t_v3 *a, const t_v3 *b);
+t_v3			subtract_vectors(const t_v3 a, const t_v3 b);
+t_v3			add_vectors(const t_v3 a, const t_v3 b);
+double			dot(const t_v3 a, const t_v3 b);
 int				cam_normal(t_vars *vars, char a);
 int				min(int a, int b);
 double			min_double(double a, double b);
 
 // vec3_maths_2.c
-t_v3			cross(const t_v3 *a, const t_v3 *b);
-t_v3			scale_vector(const t_v3 *v, double scale);
+t_v3			cross(const t_v3 a, const t_v3 b);
+t_v3			scale_vector(const t_v3 v, double scale);
 double			*solve_quadratic_eq(double a, double b, double c,
 					double *lim_dep);
-double			vec_len(const t_v3 *a, const t_v3 *b);
+double			vec_len(const t_v3 a, const t_v3 b);
+
+// vec3_maths_3.c
+t_v3			create_v3(double x, double y, double z);
 
 // plane.c
 t_plane			*set_plane();
@@ -171,6 +178,10 @@ t_ray			plane_hitray(t_plane *plane, double *t, t_ray *ray);
 // camera.c
 t_cam			*set_cam();
 int				cam_normal(t_vars *vars, char a);
+
+// MATRIX.C
+t_matrix		look_at(t_v3 origin, t_v3 cam_vector);
+t_v3			multiply_by_matrix(t_v3 p, t_matrix m);
 
 // sphere.c
 t_sphere		*set_sphere(double x, double y, double z, int color);
@@ -232,12 +243,15 @@ t_ambient_light	*set_ambient_light();
 int				ambi_int(t_objects *world);
 
 // cylinder.c
-double			*hit_cylinder(t_cylinder *cylinder, const t_ray *ray,
-					double *lim_dep);
 t_ray			cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray);
 int				set_cylinder_color(t_cylinder *cylinder, double *t);
 t_cylinder		*set_cylinder(double x, double y, double z, int color);
+int				is_in_bounds(t_v3 hit_point, t_cylinder *cylinder,
+					const t_ray *ray);
 
-double	*solve_quadratic_eq_2(double a, double b, double c, double *lim_dep, t_cylinder *cylinder, const t_ray *ray);
+// cylinder_2.c
+double			*hit_cylinder(t_cylinder *cylinder, const t_ray *ray,
+					double *lim_dep);
+t_v3			hit_cord(const t_ray *ray, double *t);
 
 #endif

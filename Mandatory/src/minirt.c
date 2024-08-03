@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/07/27 00:23:21 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/03 13:25:18 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 int	intersect(t_vars *vars, t_v3 pixel)
 {
-	t_v3	ray_d;
-	t_ray	ray;
-	double	lim_dep[2];
-	int		color;
+	t_v3		ray_d;
+	t_ray		ray;
+	double		lim_dep[2];
+	int			color;
+	t_matrix	cam_mat;
 
-	ray.origin = vars->camera->pos;
-	ray_d = subtract_vectors(&vars->camera->pos, &pixel);
-	ray.direction = ray_d;
+	cam_mat = look_at(vars->camera->pos, vars->camera->normal);
+	ray.origin = multiply_by_matrix(create_v3(0, 0, 0), cam_mat);
+	ray_d = multiply_by_matrix(pixel, cam_mat);
+	ray.direction = subtract_vectors(ray.origin, ray_d);
 	normalize(&ray.direction);
 	lim_dep[0] = 0;
 	lim_dep[1] = 0;

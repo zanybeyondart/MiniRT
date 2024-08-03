@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_arguments.c                                  :+:      :+:    :+:   */
+/*   vec3_maths_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 14:02:24 by user              #+#    #+#             */
-/*   Updated: 2024/07/28 22:26:38 by zanybeyonda      ###   ########.fr       */
+/*   Created: 2024/07/28 01:45:35 by zanybeyonda       #+#    #+#             */
+/*   Updated: 2024/08/03 12:04:10 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../../inc/minirt.h"
 
-int	check_arguments(int ac, char **av)
+t_v3	create_v3(double x, double y, double z)
 {
-	if (ac < 2)
-		return (1);
-	return (0);
+	t_v3	result;
+
+	result.x = x;
+	result.y = y;
+	result.z = z;
+	return (result);
 }

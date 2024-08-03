@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/07/26 22:40:39 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/07/28 19:24:07 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ double	*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep)
 	double	*t;
 	double	dee;
 
-	vd = dot(&plane->normal, &ray->direction);
+	vd = dot(plane->normal, ray->direction);
 	if (fabs(vd) < 1e-9)
 		return (NULL);
 	dee = -(plane->pos.x + plane->pos.y + plane->pos.z);
-	v0 = -(dot(&plane->normal, &ray->origin) + dee);
+	v0 = -(dot(plane->normal, ray->origin) + dee);
 	t = ft_smart_malloc(sizeof(double) * 2);
 	t[0] = v0 / vd;
 	t[1] = 0;
