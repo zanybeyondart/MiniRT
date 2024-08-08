@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:12:33 by user              #+#    #+#             */
-/*   Updated: 2024/07/27 00:33:11 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/08 16:48:20 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	math_colors(int color1, int color2, int asmd)
 				((color1 >> 8) & 0xFF) - ((color2 >> 8) & 0xFF),
 				(color1 & 0xFF) - (color2 & 0xFF)));
 	else if (asmd == 2)
-		return (create_trgb(((color1 >> 24) & 0xFF) - ((color2 >> 24) & 0xFF),
-				((color1 >> 16) & 0xFF) - ((color2 >> 16) & 0xFF),
-				((color1 >> 8) & 0xFF) - ((color2 >> 8) & 0xFF),
-				(color1 & 0xFF) - (color2 & 0xFF)));
+		return (create_trgb(((color1 >> 24) & 0xFF) * ((color2 >> 24) & 0xFF),
+				((color1 >> 16) & 0xFF) * ((color2 >> 16) & 0xFF),
+				((color1 >> 8) & 0xFF) * ((color2 >> 8) & 0xFF),
+				(color1 & 0xFF) * (color2 & 0xFF)));
 	return (1);
 }
 

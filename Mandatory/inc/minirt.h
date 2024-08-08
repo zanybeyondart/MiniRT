@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/08/03 13:28:30 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/08 16:49:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,22 @@ typedef struct s_cylinder
 	int		color;
 }	t_cylinder;
 
-typedef struct s_ambient_light
-{
-	double	intensity;
-	int		color;
-}	t_ambient_light;
-
 typedef enum e_objs
 {
 	SPHERE,
 	PLANE,
 	CYLINDER,
-	AMBI_LIGHT,
+	A_LIGHT,
+	P_LIGHT,
 }	t_objs;
+
+typedef struct s_light
+{
+	double	intensity;
+	int		color;
+	t_v3	pos;
+	t_objs	type;
+}	t_light;
 
 typedef struct s_objects
 {
@@ -165,6 +168,7 @@ t_v3			scale_vector(const t_v3 v, double scale);
 double			*solve_quadratic_eq(double a, double b, double c,
 					double *lim_dep);
 double			vec_len(const t_v3 a, const t_v3 b);
+t_v3			divide_vector(const t_v3 v, double div);
 
 // vec3_maths_3.c
 t_v3			create_v3(double x, double y, double z);
@@ -174,6 +178,7 @@ t_plane			*set_plane();
 int				set_plane_color(t_plane *plane, double *t);
 double			*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep);
 t_ray			plane_hitray(t_plane *plane, double *t, t_ray *ray);
+t_v3			plane_normal(t_plane *plane);
 
 // camera.c
 t_cam			*set_cam();
@@ -191,10 +196,11 @@ double			*hit_sphere(t_sphere *sphere, const t_ray *ray,
 int				diffuse(t_ray ray, t_objects *obj, t_objects *w_objs,
 					double *lim_dep);
 t_ray			sphere_hitray(t_sphere *sphere, double *t, t_ray *ray);
+t_v3			sphere_normal_at_point(t_sphere *sphere, t_v3 point);
 
 // colors.c
 int				create_trgb(int t, int r, int g, int b);
-int				math_colors(int color1, int color2, int addsub);
+int				math_colors(int color1, int color2, int asmd);
 int				avg_color(int color1, int color2, int color3, int color4);
 int				avg_color_2(int color1, int color2);
 int				math_color_by(int color1, double num, int muldiv);
@@ -208,6 +214,7 @@ int				get_b(int trgb);
 // objects.c
 t_objects		*load_objects();
 t_objects		*get_objects(t_objects *obj, int change);
+t_v3			normal_at_intersection(t_objects *obj, t_v3 point);
 
 // exit.c
 void			free_objects(t_objects *obj);
@@ -239,8 +246,10 @@ double			*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
 void			*return_type(t_objects	*world, t_objs type);
 
 // lights.c
-t_ambient_light	*set_ambient_light();
+t_light			*set_light(t_v3 pos, double intensity, int color);
 int				ambi_int(t_objects *world);
+int				compute_light_shadow(t_objects *world,
+					t_objects *object, int diffuse, t_ray *ray);
 
 // cylinder.c
 t_ray			cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray);

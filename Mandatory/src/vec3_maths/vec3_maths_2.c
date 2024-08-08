@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_maths_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:45:35 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/03 13:03:54 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/08 16:30:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ t_v3	scale_vector(const t_v3 v, double scale)
 	result.x = v.x * scale;
 	result.y = v.y * scale;
 	result.z = v.z * scale;
+	return (result);
+}
+
+t_v3	divide_vector(const t_v3 v, double div)
+{
+	t_v3	result;
+
+	result.x = v.x / div;
+	result.y = v.y / div;
+	result.z = v.z / div;
 	return (result);
 }
 

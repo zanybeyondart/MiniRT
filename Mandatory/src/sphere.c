@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/28 19:24:43 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/08 16:32:55 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,14 @@ double	*hit_sphere(t_sphere *sphere, const t_ray *ray, double *lim_dep)
 		return (NULL);
 	}
 	return (t);
+}
+
+t_v3	sphere_normal_at_point(t_sphere *sphere, t_v3 point)
+{
+	t_v3	normal;
+
+	normal = divide_vector(subtract_vectors(sphere->pos, point),
+			sphere->radius);
+	normalize(&normal);
+	return (normal);
 }

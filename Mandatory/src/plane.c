@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/07/28 19:24:07 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/08 17:07:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,9 @@ t_ray	plane_hitray(t_plane *plane, double *t, t_ray *ray)
 		final_ray.direction = plane->normal;
 	final_ray.origin = rayt;
 	return (final_ray);
+}
+
+t_v3	plane_normal(t_plane *plane)
+{
+	return (plane->normal);
 }
