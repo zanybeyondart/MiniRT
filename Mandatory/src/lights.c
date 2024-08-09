@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 23:45:12 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/08 17:21:50 by user             ###   ########.fr       */
+/*   Updated: 2024/08/09 17:49:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,31 @@ t_light	*set_light(t_v3 pos, double intensity, int color)
 	return (light);
 }
 
+int	shadow_ray(t_ray *ray, t_light *light, double d)
+{
+	t_ray		shadow_ray;
+	double		*t;
+	t_objects	*world;
+
+	world = get_objects(NULL, 0);
+	shadow_ray.origin = ray->origin;
+	shadow_ray.direction = subtract_vectors(shadow_ray.origin, light->pos);
+	while (world)
+	{
+		t = NULL;
+		t = hit_object(world, &shadow_ray, NULL);
+		if (t && t[0] < d)
+		{
+			free(t);
+			return (1);
+		}
+		if (t)
+			free(t);
+		world = world->next;
+	}
+	return (0);
+}
+
 int	compute_light_shadow_2(t_light	*light, t_ray *ray,
 		int diffuse, t_objects *obj)
 {
@@ -44,14 +69,15 @@ int	compute_light_shadow_2(t_light	*light, t_ray *ray,
 	int		color;
 
 	color = create_trgb(0, 0, 0, 0);
-	if (shadow_ray())
-		return (color);
 	l = subtract_vectors(ray->origin, light->pos);
 	normalize(&l);
 	d = vec_len(ray->origin, light->pos);
+	//if (shadow_ray(ray, light, d))
+	//	return (color);
 	normal = normal_at_intersection(obj, ray->origin);
 	dot_n_l = dot(normal, l);
-	if (dot_n_l < 0)
+	printf("%f\n", dot_n_l);
+	if (dot_n_l < 0.0f)
 		dot_n_l = 0;
 	color = math_color_by(math_color_by(diffuse, dot_n_l, 0),
 			(light->intensity / (d * d)), 0);

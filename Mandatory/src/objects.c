@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:56:20 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 17:08:33 by user             ###   ########.fr       */
+/*   Updated: 2024/08/09 15:17:35 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_objects	*load_objects()
 	t_objects	*obj;
 
 	obj = NULL;
-	obj = add_to_list(obj, set_sphere(-2, 0, -4, create_trgb(0, 0, 0, 255)), SPHERE, 1);
-	obj = add_to_list(obj, set_sphere(2, 0, -4, create_trgb(0, 0, 225, 0)), SPHERE, 2);
-	obj = add_to_list(obj, set_sphere(0, 2, -4, create_trgb(0, 225, 0, 0)), SPHERE, 3);
+	//obj = add_to_list(obj, set_sphere(-2, 0, -4, create_trgb(0, 0, 0, 255)), SPHERE, 1);
+	//obj = add_to_list(obj, set_sphere(2, 0, -4, create_trgb(0, 0, 225, 0)), SPHERE, 2);
+	//obj = add_to_list(obj, set_sphere(0, 2, -4, create_trgb(0, 225, 0, 0)), SPHERE, 3);
 	obj = add_to_list(obj, set_plane(), PLANE, 4);
 	obj = add_to_list(obj, set_light(create_v3(0, 0, 0), 0.1, create_trgb(0, 255, 255, 255)), A_LIGHT, 5);
 	//obj = add_to_list(obj, set_cylinder(0, 0, 0, create_trgb(0, 225, 0, 225)), CYLINDER, 6);
@@ -63,6 +63,6 @@ t_v3	normal_at_intersection(t_objects *obj, t_v3 point)
 {
 	if (obj->type == SPHERE)
 		return (sphere_normal_at_point(obj->data, point));
-	else
+	else if (obj->type == PLANE)
 		return (plane_normal(obj->data));
 }
