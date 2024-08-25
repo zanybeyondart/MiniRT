@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 16:32:55 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 11:36:22 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ t_v3	sphere_normal_at_point(t_sphere *sphere, t_v3 point)
 {
 	t_v3	normal;
 
-	normal = divide_vector(subtract_vectors(sphere->pos, point),
-			sphere->radius);
+	normal = subtract_vectors(sphere->pos, point);
 	normalize(&normal);
 	return (normal);
 }

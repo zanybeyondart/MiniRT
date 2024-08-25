@@ -6,31 +6,32 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 11:57:20 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/03 12:11:29 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 11:10:53 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_matrix	look_at(t_v3 origin, t_v3 cam_vector)
+t_matrix	look_at(t_v3 origin, t_v3 cam_vector, t_cam *cam)
 {
 	t_matrix	m;
 	t_v3		random;
-	t_v3		right;
-	t_v3		up;
 
-	random = create_v3(0, 1, 0);
+	if (cam->normal.y != 1)
+		random = create_v3(0, 1, 0);
+	else
+		random = create_v3(0, 0, 1);
 	normalize(&random);
-	right = cross(random, cam_vector);
-	normalize(&right);
-	up = cross(cam_vector, right);
-	normalize(&up);
-	m.d[0][0] = right.x;
-	m.d[0][1] = right.y;
-	m.d[0][2] = right.z;
-	m.d[1][0] = up.x;
-	m.d[1][1] = up.y;
-	m.d[1][2] = up.z;
+	cam->right = cross(random, cam_vector);
+	normalize(&cam->right);
+	cam->up = cross(cam_vector, cam->right);
+	normalize(&cam->up);
+	m.d[0][0] = cam->right.x;
+	m.d[0][1] = cam->right.y;
+	m.d[0][2] = cam->right.z;
+	m.d[1][0] = cam->up.x;
+	m.d[1][1] = cam->up.y;
+	m.d[1][2] = cam->up.z;
 	m.d[2][0] = cam_vector.x;
 	m.d[2][1] = cam_vector.y;
 	m.d[2][2] = cam_vector.z;
@@ -39,7 +40,6 @@ t_matrix	look_at(t_v3 origin, t_v3 cam_vector)
 	m.d[3][2] = origin.z;
 	return (m);
 }
-
 
 t_v3	multiply_by_matrix(t_v3 p, t_matrix m)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:46:42 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 12:13:05 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 11:27:04 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_cam	*set_cam()
 	camera->pos.z = 0;
 	camera->normal.x = 0;
 	camera->normal.y = 0;
-	camera->normal.z = -1;
+	camera->normal.z = 1;
 	camera->fov = 90;
 	return (camera);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 16:49:22 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 11:57:05 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ typedef struct s_cam
 {
 	t_v3	pos;
 	t_v3	normal;
+	t_v3	up;
+	t_v3	right;
 	double	fov;
 }	t_cam;
 
@@ -185,7 +187,7 @@ t_cam			*set_cam();
 int				cam_normal(t_vars *vars, char a);
 
 // MATRIX.C
-t_matrix		look_at(t_v3 origin, t_v3 cam_vector);
+t_matrix		look_at(t_v3 origin, t_v3 cam_vector, t_cam *cam);
 t_v3			multiply_by_matrix(t_v3 p, t_matrix m);
 
 // sphere.c
@@ -236,6 +238,8 @@ int				render(t_vars *vars);
 int				ray_trace(t_objects *obj, t_ray ray, int color,
 					double *lim_dep);
 double			*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
+int				bounce_ray(t_ray ray, t_objects *hit, t_objects *main,
+					double *lim_dep);
 
 // rand_ray.c
 t_ray			random_ray(t_v3 normal, t_v3 origin);

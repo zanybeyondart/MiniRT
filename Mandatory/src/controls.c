@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:11 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/28 21:50:34 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 11:03:59 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,38 @@
 
 int	events(int keycode, t_vars *vars)
 {
-	if (keycode == W_KEY)
-		vars->camera->pos.y += 1;
-	if (keycode == S_KEY)
-		vars->camera->pos.y -= 1;
-	if (keycode == UP_KEY)
-		vars->camera->pos.z -= 1;
-	if (keycode == DOWN_KEY)
-		vars->camera->pos.z += 1;
-	if (keycode == RIGHT_KEY)
-		vars->camera->pos.x += 1;
-	if (keycode == LEFT_KEY)
-		vars->camera->pos.x -= 1;
-	if (keycode == ESC)
-		quit(vars);
-	vars->update = 1;
-	return (0);
+	 if (keycode == W_KEY) {
+        vars->camera->pos.x += vars->camera->up.x;
+        vars->camera->pos.y += vars->camera->up.y;
+        vars->camera->pos.z += vars->camera->up.z;
+    }
+    if (keycode == S_KEY) {
+        vars->camera->pos.x -= vars->camera->up.x;
+        vars->camera->pos.y -= vars->camera->up.y;
+        vars->camera->pos.z -= vars->camera->up.z;
+    }
+    if (keycode == UP_KEY) {
+        vars->camera->pos.x += vars->camera->normal.x;
+        vars->camera->pos.y += vars->camera->normal.y;
+        vars->camera->pos.z += vars->camera->normal.z;
+    }
+    if (keycode == DOWN_KEY) {
+        vars->camera->pos.x -= vars->camera->normal.x;
+        vars->camera->pos.y -= vars->camera->normal.y;
+        vars->camera->pos.z -= vars->camera->normal.z;
+    }
+    if (keycode == RIGHT_KEY) {
+        vars->camera->pos.x += vars->camera->right.x;
+        vars->camera->pos.y += vars->camera->right.y;
+        vars->camera->pos.z += vars->camera->right.z;
+    }
+    if (keycode == LEFT_KEY) {
+        vars->camera->pos.x -= vars->camera->right.x;
+        vars->camera->pos.y -= vars->camera->right.y;
+        vars->camera->pos.z -= vars->camera->right.z;
+    }
+    if (keycode == ESC)
+        quit(vars);
+    vars->update = 1;
+    return (0);
 }

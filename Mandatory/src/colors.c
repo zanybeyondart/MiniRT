@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 15:12:33 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 16:48:20 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 14:38:29 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int	create_trgb(int t, int r, int g, int b)
 {
-	if (t < 0)
-		t = 0;
-	else if (t > 255)
-		t = 255;
+	t = 0;
 	if (r < 0)
 		r = 0;
 	else if (r > 255)

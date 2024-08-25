@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/08/03 13:28:06 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 11:44:10 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,6 @@ t_v3	set_cam_normal(t_v3 pixel, t_v3	direction, t_v3 pos)
 	new_pixel = add_vectors(pos, scale_vector(direction, t));
 	return (new_pixel);
 }
-
-//t_v3	set_pixel(int x, int y, t_vars *vars)
-//{
-//	t_v3	pixel_position;
-//	double	fov_radians;
-//	double	viewport_height;
-//	double	viewport_width;
-//	t_v3	uv;
-
-//	fov_radians = (90.0 * M_PI) / 180.0;
-//	viewport_height = 2.0 * tan(fov_radians / 2.0) * (1);
-//	viewport_width = (viewport_height) * 1;
-//	uv.x = (double)(x - vars->size[0] / 2)
-//		/ ((double) vars->size[0] / 2) * (viewport_width / 2);
-//	uv.y = (double)(vars->size[1] / 2 - y)
-//		/ ((double) vars->size[1] / 2) * (viewport_height / 2);
-//	uv.z = 1.0;
-//	pixel_position = add_vectors(vars->camera->pos, uv);
-//	return (pixel_position);
-//}
 
 t_v3	set_pixel(int x, int y, t_vars *vars)
 {

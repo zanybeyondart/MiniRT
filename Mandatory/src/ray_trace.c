@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_trace.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 17:17:57 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 13:00:30 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	diffuse(t_ray ray, t_objects *obj, t_objects *w_objs, double *lim_dep)
 	int			samples;
 
 	color = compute_light_shadow(w_objs, obj, data_color(obj, NULL), &ray);
-	while (w_objs)
+	while (w_objs && color != 0)
 	{
 		samples = SAMPLES;
 		if (obj->id != w_objs->id)
