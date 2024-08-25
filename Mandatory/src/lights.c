@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 23:45:12 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/25 14:41:31 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 19:45:56 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,23 @@ t_light	*set_light(t_v3 pos, double intensity, int color)
 	return (light);
 }
 
-int	shadow_ray(t_ray *ray, t_light *light, double d)
+int	plane_obstruct(t_cam *cam, t_ray *shadow, t_light *light, t_plane *plane)
+{
+	t_v3	cam_plane;
+	t_v3	plane_light;
+	double	dot_cam;
+	double	dot_light;
+
+	cam_plane = subtract_vectors(cam->pos, plane->pos);
+	plane_light = subtract_vectors(light->pos, plane->pos);
+	dot_cam = dot(plane->normal, cam_plane);
+	dot_light = dot(plane->normal, plane_light);
+	if (dot_cam * dot_light > 0)
+		return (0);
+	return (1);
+}
+
+int	shadow_ray(t_ray *ray, t_light *light, double d, t_objects *obj)
 {
 	t_ray		shadow_ray;
 	double		*t;
@@ -43,11 +59,15 @@ int	shadow_ray(t_ray *ray, t_light *light, double d)
 	world = get_objects(NULL, 0);
 	shadow_ray.origin = ray->origin;
 	shadow_ray.direction = subtract_vectors(shadow_ray.origin, light->pos);
+	normalize(&shadow_ray.direction);
+	if (obj->type == PLANE
+		&& plane_obstruct(get_camera(NULL, 0), &shadow_ray, light, obj->data))
+		return (1);
 	while (world)
 	{
 		t = NULL;
 		t = hit_object(world, &shadow_ray, NULL);
-		if (t && t[0] < d)
+		if (t && t[0] < d && t[0] >= 1e-9)
 		{
 			free(t);
 			return (1);
@@ -93,22 +113,20 @@ double	compute_light_shadow_3(t_light *light, t_ray *ray, t_v3 normal)
 
 	i = 0;
 	total_light = 0;
-	while (i < SAMPLES + 2)
+	while (i < SAMPLES + 1)
 	{
-		offset = random_offset(2);
+		offset = random_offset(1);
 		sample_pos = add_vectors(light->pos, offset);
 		shadow_ray.origin = ray->origin;
 		shadow_ray.direction = subtract_vectors(ray->origin, sample_pos);
 		normalize(&shadow_ray.direction);
-		double sample_d = vec_len(ray->origin, sample_pos);
-		double light_intensity = light->intensity / (sample_d * sample_d);
-		double sample_dot_n_l = dot(normal, shadow_ray.direction);
-		if (sample_dot_n_l < 0)
-			sample_dot_n_l = 0;
-		total_light += light_intensity * sample_dot_n_l;
+		double light_intensity = light->intensity / pow(vec_len(ray->origin, sample_pos), 2);
+		if (fabs(dot(normal, shadow_ray.direction)) < 1e-9)
+			continue ;
+		total_light += light_intensity * dot(normal, shadow_ray.direction);
 		i++;
 	}
-	return (total_light / SAMPLES);
+	return (total_light / (SAMPLES + 1));
 }
 
 int	compute_light_shadow_2(t_light	*light, t_ray *ray,
@@ -124,8 +142,8 @@ int	compute_light_shadow_2(t_light	*light, t_ray *ray,
 	l = subtract_vectors(ray->origin, light->pos);
 	normalize(&l);
 	d = vec_len(ray->origin, light->pos);
-	//if (shadow_ray(ray, light, d))
-	//	return (color);
+	if (shadow_ray(ray, light, d, obj))
+		return (color);
 	normal = normal_at_intersection(obj, ray->origin);
 	color = math_color_by(diffuse,
 			compute_light_shadow_3(light, ray, normal), 0);

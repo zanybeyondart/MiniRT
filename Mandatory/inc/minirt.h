@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 11:57:05 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 20:26:15 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ t_v3			plane_normal(t_plane *plane);
 // camera.c
 t_cam			*set_cam();
 int				cam_normal(t_vars *vars, char a);
+t_cam			*get_camera(t_cam *cam, int set);
 
 // MATRIX.C
 t_matrix		look_at(t_v3 origin, t_v3 cam_vector, t_cam *cam);
@@ -216,6 +217,7 @@ int				get_b(int trgb);
 // objects.c
 t_objects		*load_objects();
 t_objects		*get_objects(t_objects *obj, int change);
+t_objects		*_objects(t_objects *obj, int change);
 t_v3			normal_at_intersection(t_objects *obj, t_v3 point);
 
 // exit.c
@@ -261,6 +263,7 @@ int				set_cylinder_color(t_cylinder *cylinder, double *t);
 t_cylinder		*set_cylinder(double x, double y, double z, int color);
 int				is_in_bounds(t_v3 hit_point, t_cylinder *cylinder,
 					const t_ray *ray);
+t_v3			cylinder_surface_normal(t_cylinder *cy, t_v3 hit_pt);
 
 // cylinder_2.c
 double			*hit_cylinder(t_cylinder *cylinder, const t_ray *ray,

@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 11:44:10 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 18:15:07 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	render(t_vars *vars)
 			}
 			i++;
 		}
-		// anti_alias(vars);
+		anti_alias(vars);
 	}
 	mlx_do_sync(vars->mlx);
 	return (1);

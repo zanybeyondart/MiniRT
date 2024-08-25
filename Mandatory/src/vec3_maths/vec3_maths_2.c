@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_maths_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:45:35 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/08 16:30:50 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 20:21:37 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ double	*solve_quadratic_eq(double a, double b, double c, double *lim_dep)
 	t[0] = ((-b + sqrt(discriminant)) / (2 * a));
 	t[1] = ((-b - sqrt(discriminant)) / (2 * a));
 	t[0] = min_double(t[0], t[1]);
-	if ((lim_dep[0] && t[0] > lim_dep[0]) || (t[0] <= 0))
+	if ((lim_dep && lim_dep[0] && t[0] > lim_dep[0]) || (t[0] <= 0))
 	{
 		free (t);
 		return (NULL);

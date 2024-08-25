@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 11:36:22 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 17:47:33 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ double	*hit_sphere(t_sphere *sphere, const t_ray *ray, double *lim_dep)
 	t = ft_smart_malloc(sizeof(double) * 2);
 	t[0] = tca - thc;
 	t[1] = tca + thc;
-	if (lim_dep[0] && t[0] > lim_dep[0])
+	if (lim_dep && lim_dep[0] && t[0] > lim_dep[0])
 	{
 		free (t);
 		return (NULL);

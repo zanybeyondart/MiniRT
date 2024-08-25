@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/08/08 17:07:50 by user             ###   ########.fr       */
+/*   Updated: 2024/08/25 17:48:05 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ double	*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep)
 	t = ft_smart_malloc(sizeof(double) * 2);
 	t[0] = v0 / vd;
 	t[1] = 0;
-	if (t[0] <= 0 || (lim_dep[0] && t[0] > lim_dep[0]))
+	if (t[0] <= 0 || (lim_dep && lim_dep[0] && t[0] > lim_dep[0]))
 	{
 		free(t);
 		return (NULL);

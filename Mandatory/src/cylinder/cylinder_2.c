@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 21:26:34 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/03 13:06:36 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/25 20:27:19 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,42 @@ double	*hit_cylinder(t_cylinder *cylinder, const t_ray *ray, double *lim_dep)
 	}
 	if (t_cap)
 	{
-		if ((lim_dep[0] && t_cap[0] < lim_dep[0]) || (t_cap[0] > 0))
+		if ((lim_dep && lim_dep[0] && t_cap[0] < lim_dep[0]) || (t_cap[0] > 0))
 			return (t_cap);
 		free (t_cap);
 	}
 	return (NULL);
 }
+
+t_v3	cylinder_surface_normal(t_cylinder *cy, t_v3 hit_pt)
+{
+    t_v3	surface_normal;
+    t_v3	top_center;
+    t_v3	bottom_center;
+    t_v3	pt;
+    double	t;
+
+    // Calculate the top and bottom centers of the cylinder
+    top_center = add_vectors(cy->pos, scale_vector(cy->normal, cy->height / 2.0));
+    bottom_center = subtract_vectors(cy->pos, scale_vector(cy->normal, cy->height / 2.0));
+
+    // Check if the hit point is on the top cap
+    if (vec_len(hit_pt, top_center) < cy->radius)
+        return (cy->normal);  // The normal is the cylinder's orientation vector
+
+    // Check if the hit point is on the bottom cap
+    if (vec_len(hit_pt, bottom_center) < cy->radius)
+        return (scale_vector(cy->normal, -1.0));  // The normal is the opposite of the cylinder's orientation vector
+
+    // The hit point is on the side of the cylinder
+    t = dot(subtract_vectors(hit_pt, bottom_center), cy->normal);
+    pt = add_vectors(bottom_center, scale_vector(cy->normal, t));
+
+    // The normal at the hit point on the side is orthogonal to the cylinder's orientation
+    surface_normal = subtract_vectors(hit_pt, pt);
+    normalize(&surface_normal);
+
+    return (surface_normal);
+}
+
+
