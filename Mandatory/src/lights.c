@@ -6,20 +6,20 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 23:45:12 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/25 19:45:56 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/31 13:28:01 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-int	ambi_int(t_objects *world)
+int	ambi_int(t_objects *world, int color)
 {
 	double			intensity;
 	t_light			*light;
 
 	light = return_type(world, A_LIGHT);
 	if (light)
-		return (math_color_by(light->color, light->intensity, 0));
+		return (math_color_by(color, light->intensity, 0));
 	return (0);
 }
 

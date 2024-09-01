@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 13:00:30 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/31 13:28:22 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	ray_trace(t_objects *obj, t_ray ray, int color, double *lim_dep)
 
 	closest = NULL;
 	new = NULL;
+	closest_obj = NULL;
 	while (obj)
 	{
 		new = hit_object(obj, &ray, lim_dep);
@@ -112,7 +113,8 @@ int	ray_trace(t_objects *obj, t_ray ray, int color, double *lim_dep)
 	}
 	if (closest)
 		color = set_ray_color(&ray, closest, closest_obj, lim_dep);
-	if (closest)
-		free(closest);
-	return (color);
+	return (math_colors(color,
+			ambi_int(get_objects(NULL, 0), data_color(closest_obj, NULL)), 0));
+	return (math_colors(color,
+			0, 0));
 }

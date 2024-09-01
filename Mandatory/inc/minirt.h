@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 20:26:15 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/31 13:11:41 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,7 @@ void			*return_type(t_objects	*world, t_objs type);
 
 // lights.c
 t_light			*set_light(t_v3 pos, double intensity, int color);
-int				ambi_int(t_objects *world);
+int				ambi_int(t_objects *world, int color);
 int				compute_light_shadow(t_objects *world,
 					t_objects *object, int diffuse, t_ray *ray);
 

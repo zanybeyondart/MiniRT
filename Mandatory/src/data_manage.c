@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:43:56 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 18:03:50 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/31 13:01:27 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	*return_type(t_objects	*world, t_objs type)
 
 int	data_color(t_objects *obj, double *t)
 {
+	if (obj == NULL)
+		return (0);
 	if (obj->type == SPHERE)
 		return (set_sphere_color(obj->data, t));
 	else if (obj->type == PLANE)

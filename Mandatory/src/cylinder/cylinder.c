@@ -6,7 +6,7 @@
 /*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/07/28 22:11:54 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/08/31 13:30:17 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_cylinder	*set_cylinder(double x, double y, double z, int color)
 	cylinder->pos.y = y;
 	cylinder->pos.z = z;
 	cylinder->normal.x = 1;
-	cylinder->normal.y = 1;
+	cylinder->normal.y = 0.2;
 	cylinder->normal.z = 0;
 	normalize(&cylinder->normal);
 	cylinder->radius = 1;
