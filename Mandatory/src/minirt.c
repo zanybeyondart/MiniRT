@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/08/31 12:51:02 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/02 19:20:54 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ int	intersect(t_vars *vars, t_v3 pixel)
 	normalize(&ray.direction);
 	lim_dep[0] = 0;
 	lim_dep[1] = 0;
+	if (vars->mode == 1)
 	color = ray_trace(vars->objects, ray,
 			create_trgb(0, 0, 0, 0), lim_dep);
+	else
+	color = low_res_render(vars->objects, ray, create_trgb(0, 0, 0, 0), lim_dep);
 	return (color);
 }
 
@@ -41,6 +44,7 @@ int	main(int ac, char **av)
 	vars->camera = set_cam();
 	vars->objects = load_objects();
 	vars->update = 1;
+	vars->mode = 0;
 	vars->mlx = mlx_init();
 	vars->size[0] = WIDTH;
 	vars->size[1] = HEIGHT;

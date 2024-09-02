@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_trace.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:01:56 by user              #+#    #+#             */
-/*   Updated: 2024/08/31 13:28:22 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/02 19:21:48 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,32 @@ int	ray_trace(t_objects *obj, t_ray ray, int color, double *lim_dep)
 			ambi_int(get_objects(NULL, 0), data_color(closest_obj, NULL)), 0));
 	return (math_colors(color,
 			0, 0));
+}
+
+int	low_res_render(t_objects *obj, t_ray ray, int color, double *lim_dep)
+{
+	double		*closest;
+	double		*new;
+	t_objects	*closest_obj;
+
+	closest = NULL;
+	new = NULL;
+	closest_obj = NULL;
+	while (obj)
+	{
+		new = hit_object(obj, &ray, lim_dep);
+		if ((new && closest == NULL) || (new && closest && new[0] < closest[0]))
+		{
+			if (closest)
+				free(closest);
+			closest = new;
+			closest_obj = obj;
+		}
+		else if (new)
+			free(new);
+		obj = obj->next;
+	}
+	if (closest)
+		color = data_color(closest_obj, NULL);
+	return (color);
 }

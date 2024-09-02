@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/08/31 13:11:41 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/02 19:38:05 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,15 @@
 #  define RIGHT_KEY	124
 #  define LEFT_KEY	123
 #  define ESC	53
+#  define E	14
+#  define R	15
 # endif
 
 // SETTINGS
 # define WIDTH	500
 # define HEIGHT	500
+# define WIDTH_LD 250
+# define HEIGHT_LD 250
 # define THRESHOLD	1
 
 // DIFFUSE RAY SETTINGS
@@ -145,6 +149,7 @@ typedef struct s_vars
 	t_objects	*objects;
 	int			update;
 	int			size[2];
+	int			mode;
 }	t_vars;
 
 // minirt.c
@@ -235,6 +240,7 @@ void			modify_pixel(t_vars *vars, int x, int y);
 
 // render.c
 int				render(t_vars *vars);
+int	low_res_render(t_objects *obj, t_ray ray, int color, double *lim_dep);
 
 // ray_trace.c
 int				ray_trace(t_objects *obj, t_ray ray, int color,

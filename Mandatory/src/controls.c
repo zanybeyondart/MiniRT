@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:11 by zvakil            #+#    #+#             */
-/*   Updated: 2024/08/25 11:03:59 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/02 19:17:00 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int	events(int keycode, t_vars *vars)
         vars->camera->pos.y -= vars->camera->right.y;
         vars->camera->pos.z -= vars->camera->right.z;
     }
+	if (keycode == E)
+		vars->mode = 0;
+	if (keycode == R)
+		vars->mode = 1;
     if (keycode == ESC)
         quit(vars);
     vars->update = 1;

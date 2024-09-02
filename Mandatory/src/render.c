@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 18:15:07 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/02 19:48:07 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,27 @@ void	render_pixel(t_vars *vars, int i, int j)
 	store_render(1, i, j, color);
 }
 
+void set_size(t_vars *vars)
+{
+	if (vars->mode == 1)
+	{
+		vars->size[0] = WIDTH;
+		vars->size[1] = HEIGHT;
+	}
+	else
+	{
+		vars->size[0] = WIDTH_LD;
+		vars->size[1] = HEIGHT_LD;
+	}
+}
+
 int	render(t_vars *vars)
 {
 	int		i;
 	int		j;
 
 	i = 0;
+	set_size(vars);
 	if (vars->update == 1)
 	{
 		mlx_clear_window(vars->mlx, vars->win);
@@ -69,7 +84,24 @@ int	render(t_vars *vars)
 			}
 			i++;
 		}
+		if (vars->mode == 1)
 		anti_alias(vars);
+		else
+		{
+					int scale_x = WIDTH / WIDTH_LD;
+int scale_y = HEIGHT / HEIGHT_LD;
+
+for (int y = 0; y < HEIGHT_LD; y++) { // Loop over low-res height
+    for (int x = 0; x < WIDTH_LD; x++) { // Loop over low-res width
+        for (int dy = 0; dy < scale_y; dy++) { // Scale in y-direction
+            for (int dx = 0; dx < scale_x; dx++) { // Scale in x-direction
+                mlx_pixel_put(vars->mlx, vars->win, x * scale_x + dx, y * scale_y + dy, store_render(0, x, y, 0));
+            }
+        }
+    }
+}
+
+		}
 	}
 	mlx_do_sync(vars->mlx);
 	return (1);
