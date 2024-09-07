@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/09/02 19:48:07 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/03 19:35:25 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,37 @@ void set_size(t_vars *vars)
 	}
 }
 
+void	scale_image(t_vars *vars)
+{
+	int	x[2];
+	int	y[2];
+
+	y[0] = 0;
+	while (y[0] < HEIGHT_LD)
+	{
+		x[0] = 0;
+		while (x[0] < WIDTH_LD)
+		{
+		y[1] = 0;
+			while (y[1] < HEIGHT / HEIGHT_LD)
+			{
+				x[1] = 0;
+				while (x[1] < WIDTH / WIDTH_LD)
+				{
+					mlx_pixel_put(vars->mlx, vars->win,
+						x[0] * WIDTH / WIDTH_LD + x[1],
+						y[0] * HEIGHT / HEIGHT_LD + y[1],
+						store_render(0, x[0], y[0], 0));
+				x[1]++;
+				}
+		y[1]++;
+			}
+		x[0]++;
+		}
+	y[0]++;
+	}
+}
+
 int	render(t_vars *vars)
 {
 	int		i;
@@ -85,23 +116,9 @@ int	render(t_vars *vars)
 			i++;
 		}
 		if (vars->mode == 1)
-		anti_alias(vars);
+			anti_alias(vars);
 		else
-		{
-					int scale_x = WIDTH / WIDTH_LD;
-int scale_y = HEIGHT / HEIGHT_LD;
-
-for (int y = 0; y < HEIGHT_LD; y++) { // Loop over low-res height
-    for (int x = 0; x < WIDTH_LD; x++) { // Loop over low-res width
-        for (int dy = 0; dy < scale_y; dy++) { // Scale in y-direction
-            for (int dx = 0; dx < scale_x; dx++) { // Scale in x-direction
-                mlx_pixel_put(vars->mlx, vars->win, x * scale_x + dx, y * scale_y + dy, store_render(0, x, y, 0));
-            }
-        }
-    }
-}
-
-		}
+			scale_image(vars);
 	}
 	mlx_do_sync(vars->mlx);
 	return (1);

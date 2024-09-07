@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/02 19:38:05 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/04 08:14:20 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@
 // SETTINGS
 # define WIDTH	500
 # define HEIGHT	500
-# define WIDTH_LD 250
-# define HEIGHT_LD 250
+# define WIDTH_LD 100
+# define HEIGHT_LD 100
 # define THRESHOLD	1
 
 // DIFFUSE RAY SETTINGS
