@@ -6,13 +6,29 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:19:29 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/22 14:33:11 by user             ###   ########.fr       */
+/*   Updated: 2024/09/10 16:23:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
 int	store_render(int update, int x, int y, int color)
+{
+	static int	image[WIDTH][HEIGHT];
+
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return (0);
+	if (update == 1)
+	{
+		image[x][y] = color;
+		return (image[x][y]);
+	}
+	if (image[x][y])
+		return (image[x][y]);
+	return (0);
+}
+
+void	*store_object(int update, int x, int y, int color)
 {
 	static int	image[WIDTH][HEIGHT];
 

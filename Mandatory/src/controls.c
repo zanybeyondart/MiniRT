@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:11 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/03 19:48:22 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/10 12:09:07 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,21 @@ void	edit_controls(int keycode, t_vars *vars)
 		math_vector_xyz(&vars->camera->pos, &vars->camera->right, 0);
 	if (keycode == LEFT_KEY)
 		math_vector_xyz(&vars->camera->pos, &vars->camera->right, 1);
+	vars->update = 1;
 }
 
 int	events(int keycode, t_vars *vars)
 {
-	if (keycode == E)
+	if (keycode == F1)
 		vars->mode = 0;
-	if (keycode == R)
+	if (keycode == F2)
+	{
 		vars->mode = 1;
+		vars->update = 1;
+	}
 	if (vars->mode == 0)
 		edit_controls(keycode, vars);
 	if (keycode == ESC)
 		quit(vars);
-	vars->update = 1;
 	return (0);
 }

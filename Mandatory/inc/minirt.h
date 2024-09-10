@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/04 08:14:20 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/10 15:40:58 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,15 @@
 #  define ESC	53
 #  define E	14
 #  define R	15
+#  define F1	122
+#  define F2	120
 # endif
 
 // SETTINGS
-# define WIDTH	500
-# define HEIGHT	500
-# define WIDTH_LD 100
-# define HEIGHT_LD 100
+# define WIDTH	800
+# define HEIGHT	450
+# define WIDTH_LD 400
+# define HEIGHT_LD 225
 # define THRESHOLD	1
 
 // DIFFUSE RAY SETTINGS
@@ -65,6 +67,13 @@
 # define SEED_A 1664525
 # define SEED_C 1013904223
 # define SEED_M 4294967296
+
+typedef struct s_properties
+{
+	double				value;
+	char				*name;
+	struct s_properties	*next;
+}	t_properties;
 
 typedef struct s_v3
 {
@@ -240,7 +249,8 @@ void			modify_pixel(t_vars *vars, int x, int y);
 
 // render.c
 int				render(t_vars *vars);
-int	low_res_render(t_objects *obj, t_ray ray, int color, double *lim_dep);
+int				low_res_render(t_objects *obj, t_ray ray,
+					int color, double *lim_dep);
 
 // ray_trace.c
 int				ray_trace(t_objects *obj, t_ray ray, int color,
