@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/10 15:40:58 by user             ###   ########.fr       */
+/*   Updated: 2024/09/10 18:09:40 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,30 @@ typedef struct s_properties
 	char				*name;
 	struct s_properties	*next;
 }	t_properties;
+
+typedef struct s_layer
+{
+	void	*object;
+	char	*name;
+	int		active;
+}	t_layer;
+
+typedef struct s_active_layers
+{
+	t_layer	*a;
+	t_layer	*b;
+	t_layer	*c;
+	t_layer	*d;
+	t_layer	*e;
+}	t_active_layers;
+
+typedef struct s_layers
+{
+	void				*sel_box;
+	void				*main_box;
+	t_active_layers		*active_layers;
+}	t_layers;
+
 
 typedef struct s_v3
 {
