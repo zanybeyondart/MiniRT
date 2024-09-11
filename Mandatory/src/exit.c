@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:52:41 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/20 17:53:01 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/11 14:47:21 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_objects(t_objects *obj)
 void	free_program(t_vars *vars)
 {
 	free(vars->camera);
+	free(vars->ui);
 	free_objects(vars->objects);
 	free(vars);
 }

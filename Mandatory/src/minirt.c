@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/09/02 19:20:54 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/11 15:15:51 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int ac, char **av)
 	vars->update = 1;
 	vars->mode = 0;
 	vars->mlx = mlx_init();
+	vars->ui = load_ui(vars);
 	vars->size[0] = WIDTH;
 	vars->size[1] = HEIGHT;
 	vars->win = mlx_new_window(vars->mlx, vars->size[0],

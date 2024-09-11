@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/10 18:09:40 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/11 15:25:07 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 #  define R	15
 #  define F1	122
 #  define F2	120
+#  define P 35
 # endif
 
 // SETTINGS
@@ -174,6 +175,19 @@ typedef struct s_objects
 	struct s_objects	*next;
 }	t_objects;
 
+typedef struct s_image
+{
+	void				*img;
+	int					w;
+	int					h;
+}	t_image;
+
+typedef struct s_ui
+{
+	t_image	overlay;
+	int		active;
+}	t_ui;
+
 typedef struct s_vars
 {
 	void		*mlx;
@@ -183,6 +197,7 @@ typedef struct s_vars
 	int			update;
 	int			size[2];
 	int			mode;
+	t_ui		*ui;
 }	t_vars;
 
 // minirt.c
@@ -309,5 +324,10 @@ t_v3			cylinder_surface_normal(t_cylinder *cy, t_v3 hit_pt);
 double			*hit_cylinder(t_cylinder *cylinder, const t_ray *ray,
 					double *lim_dep);
 t_v3			hit_cord(const t_ray *ray, double *t);
+
+// ui.c
+
+t_ui			*load_ui(t_vars *vars);
+void			print_ui(t_active_layers *menu);
 
 #endif
