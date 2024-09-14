@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/14 03:27:21 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/14 15:24:55 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,9 +188,10 @@ typedef struct s_vars
 
 // minirt.c
 int				intersect(t_vars *vars, t_v3 pixel);
+t_vars			*get_vars(t_vars *vars, int change);
 
 // check_arguments.c
-t_objects		*check_arguments(int ac, char **av);
+int				check_arguments(int ac, char **av);
 
 // normals.c
 void			normalize(t_v3 *vector);
@@ -222,7 +223,7 @@ t_ray			plane_hitray(t_plane *plane, double *t, t_ray *ray);
 t_v3			plane_normal(t_plane *plane);
 
 // camera.c
-t_cam			*set_cam();
+t_cam			*set_cam(double *xyz, double *normal, double fov);
 int				cam_normal(t_vars *vars, char a);
 t_cam			*get_camera(t_cam *cam, int set);
 

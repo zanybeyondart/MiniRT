@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:46:42 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 19:32:34 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/14 15:18:40 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,19 @@ t_cam	*get_camera(t_cam *cam, int set)
 	return (camera);
 }
 
-t_cam	*set_cam()
+t_cam	*set_cam(double *xyz, double *normal, double fov)
 {
 	t_cam	*camera;
+	t_vars	*vars;
 
 	camera = ft_smart_malloc(sizeof(t_cam));
-	camera->pos.x = 0;
-	camera->pos.y = 0;
-	camera->pos.z = 0;
-	camera->normal.x = 0;
-	camera->normal.y = 0;
-	camera->normal.z = 1;
-	camera->fov = 90;
+	camera->pos.x = xyz[0];
+	camera->pos.y = xyz[1];
+	camera->pos.z = xyz[2];
+	camera->normal.x = normal[0];
+	camera->normal.y = normal[1];
+	camera->normal.z = normal[2];
+	camera->fov = fov;
 	get_camera(camera, 1);
 	return (camera);
 }

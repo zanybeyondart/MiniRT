@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:02:24 by user              #+#    #+#             */
-/*   Updated: 2024/09/14 03:34:45 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/14 15:06:14 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_objects	*check_arguments(int ac, char **av)
+int	check_arguments(int ac, char **av)
 {
 	t_objects	*objects;
 	char		*file_path;
@@ -22,13 +22,14 @@ t_objects	*check_arguments(int ac, char **av)
 	ft_strcpy(file_path, "./Mandatory/src/scenes/");
 	ft_strcat(file_path, av[1]);
 	objects = ft_smart_malloc(sizeof(t_objects));
+	get_objects(objects, 1);
 	if (ac == 2 && av[1] && read_file(file_path, objects))
 	{
 		free(file_path);
-		return (objects);
+		return (0);
 	}
 	free(file_path);
 	free(objects);
 	printf("Error :Check Arguments\n");
-	return (NULL);
+	return (1);
 }

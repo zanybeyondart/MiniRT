@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_type1.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/14 15:01:41 by zvakil            #+#    #+#             */
+/*   Updated: 2024/09/14 15:18:09 by zvakil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minirt.h"
 
 int check_ambient(char *str, t_objects *objects) //this is correct 
@@ -57,33 +69,27 @@ int check_light(char *str, t_objects *objects)
     // obj = add_to_list(obj, set_light(create_v3(xyz[0], xyz[1], xyz[2]), light_brightness, create_trgb(0, rgb[0], rgb[1], rgb[2])), P_LIGHT, 6);
 }   
 
-int check_camera(char *str, t_objects *objects)
+int	check_camera(char *str, t_objects *objects)
 {
-    char    **split_result;
-    float   fov;
-    float   normal[3];
-    float   xyz[3];
-    int u;
+	char	**split_result;
+	double	fov;
+	double	normal[3];
+	double	xyz[3];
+	int		u;
 
-    // t_objects	*obj;
-    // obj = objects;
-    split_result = ft_split_2(str, ' ', 0);
-    if (split_result[1])
-        if (parse_xyz(split_result[1], xyz))
-            return (1);
-    if (split_result[2])
-         if (parse_normal(split_result[2], normal))
-            return (1);
-    if (check_normal_range(normal) != 0)
-        return (1);
-    if(split_result[3])
-        fov = atof(split_result[3]);
-    if (check_fov_range(fov) != 0)
-        return (1);
-
-    // print_array_float(xyz);
-    // print_array_float(normal);
-    // printf("FOV %f \n", fov);
-
-    // set_cam(arr_xyz[0],arr_xyz[1],arr_xyz[2],arr_normal[0],arr_normal[1],arr_normal[2],fov);
+	split_result = ft_split_2(str, ' ', 0);
+	if (split_result[1])
+		if (parse_xyz(split_result[1], xyz))
+			return (1);
+	if (split_result[2])
+		if (parse_normal(split_result[2], normal))
+			return (1);
+	if (check_normal_range(normal) != 0)
+		return (1);
+	if (split_result[3])
+		fov = atof(split_result[3]);
+	if (check_fov_range(fov) != 0)
+		return (1);
+	set_cam(xyz, normal, fov);
+	return (0);
 }

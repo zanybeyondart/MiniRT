@@ -7,8 +7,8 @@ int check_sphere(char *str, t_objects *objects)
     float   rgb[3];
     float   xyz[3];
 
-    // t_objects	*obj;
-    // obj = objects;
+    t_objects	*obj;
+    obj = get_objects(NULL, 0);
     split_result = ft_split_2(str, ' ', 0);
     if (split_result[1])
         if(parse_xyz(split_result[1], xyz))
@@ -30,7 +30,7 @@ int check_sphere(char *str, t_objects *objects)
     // printf("Diameter -> %f \n", diameter);
     // print_array_float(rgb);
 
-    // objects = add_to_list(objects, set_sphere(xyz[0], xyz[1], xyz[2], create_trgb(0, rgb[0], rgb[1], rgb[2])), SPHERE, 2);
+    objects = add_to_list(objects, set_sphere(xyz[0], xyz[1], xyz[2], create_trgb(0, rgb[0], rgb[1], rgb[2])), SPHERE, 2);
 }
 
 int check_plane(char *str, t_objects *objects)

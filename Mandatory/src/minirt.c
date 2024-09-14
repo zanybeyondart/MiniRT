@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/09/14 03:28:14 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/14 15:19:30 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,26 @@ int	intersect(t_vars *vars, t_v3 pixel)
 	lim_dep[0] = 0;
 	lim_dep[1] = 0;
 	if (vars->mode == 1)
-	color = ray_trace(vars->objects, ray,
-			create_trgb(0, 0, 0, 0), lim_dep);
+		color = ray_trace(vars->objects, ray,
+				create_trgb(0, 0, 0, 0), lim_dep);
 	else
-	color = low_res_render(vars->objects, ray, create_trgb(0, 0, 0, 0), lim_dep);
+		color = low_res_render(vars->objects, ray,
+				create_trgb(0, 0, 0, 0), lim_dep);
 	return (color);
 }
 
 int	main(int ac, char **av)
 {
 	t_vars		*vars;
-	t_objects	*obj;
 
-	obj = check_arguments(ac, av);
-	if (!obj)
+	if (check_arguments(ac, av))
+	{
+		free(vars);
 		return (1);
+	}
 	vars = ft_smart_malloc(sizeof(t_vars));
-	vars->camera = set_cam();
-	vars->objects = load_objects();
+	vars->camera = get_camera(NULL, 0);
+	vars->objects = get_objects(NULL, 0);
 	vars->update = 1;
 	vars->mode = 0;
 	vars->mlx = mlx_init();

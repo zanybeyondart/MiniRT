@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 16:56:20 by user              #+#    #+#             */
-/*   Updated: 2024/09/02 18:56:15 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/14 15:12:18 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ t_objects	*get_objects(t_objects *obj, int change)
 	if (change == 1)
 		final_obj = obj;
 	return (final_obj);
+}
+
+t_vars	*get_vars(t_vars *vars, int change)
+{
+	static t_vars	*final_vars;
+
+	if (change == 1)
+		final_vars = vars;
+	return (final_vars);
 }
 
 t_v3	normal_at_intersection(t_objects *obj, t_v3 point)
