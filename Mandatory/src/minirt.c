@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/09/11 15:15:51 by user             ###   ########.fr       */
+/*   Updated: 2024/09/14 03:28:14 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,17 @@ int	intersect(t_vars *vars, t_v3 pixel)
 int	main(int ac, char **av)
 {
 	t_vars		*vars;
+	t_objects	*obj;
 
-	check_arguments(ac, av);
+	obj = check_arguments(ac, av);
+	if (!obj)
+		return (1);
 	vars = ft_smart_malloc(sizeof(t_vars));
 	vars->camera = set_cam();
 	vars->objects = load_objects();
 	vars->update = 1;
 	vars->mode = 0;
 	vars->mlx = mlx_init();
-	vars->ui = load_ui(vars);
 	vars->size[0] = WIDTH;
 	vars->size[1] = HEIGHT;
 	vars->win = mlx_new_window(vars->mlx, vars->size[0],

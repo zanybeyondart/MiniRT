@@ -6,7 +6,7 @@
 /*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:11 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/11 15:25:20 by user             ###   ########.fr       */
+/*   Updated: 2024/09/10 12:09:07 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,6 @@ int	events(int keycode, t_vars *vars)
 	{
 		vars->mode = 1;
 		vars->update = 1;
-	}
-	if (keycode == P)
-	{
-		if (vars->ui->active)
-			vars->ui->active = 0;
-		else
-			vars->ui->active = 1;
 	}
 	if (vars->mode == 0)
 		edit_controls(keycode, vars);

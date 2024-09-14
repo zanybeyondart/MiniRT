@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/09/11 15:25:35 by user             ###   ########.fr       */
+/*   Updated: 2024/09/03 19:35:25 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,7 @@ int	render(t_vars *vars)
 		if (vars->mode == 1)
 			anti_alias(vars);
 		else
-		{
 			scale_image(vars);
-			if (vars->ui->active)
-				mlx_put_image_to_window(vars->mlx, vars->win,
-				vars->ui->overlay.img, 0, 0);
-		}
 	}
 	mlx_do_sync(vars->mlx);
 	return (1);
