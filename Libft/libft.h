@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 15:27:27 by zvakil            #+#    #+#             */
-/*   Updated: 2024/07/17 13:40:31 by user             ###   ########.fr       */
+/*   Updated: 2024/09/13 17:11:29 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <ctype.h>
 
 typedef struct s_list
 {
@@ -56,16 +57,22 @@ int		ft_toupper(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_lstsize(t_list *lst);
 
+double	ft_atof(const char *str);
+
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char	*dst, const char	*src, size_t size);
 size_t	ft_strlen(const char *a);
 
 char	*ft_strnstr(const char *s, const char *s2, size_t len);
 char	*ft_strrchr(const char *s, int c);
+char	*ft_strcat(char *dest, const char *src);
+char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strchr(const char *s, int c);
+char	*skip_whitespace(char *str);
 char	*ft_strdup(const char *s1);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
+char	**ft_split_2(const char *s, char c, int bool_value);
 char	*ft_itoa(int n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));

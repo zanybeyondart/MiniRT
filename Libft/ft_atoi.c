@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 12:15:54 by zvakil            #+#    #+#             */
-/*   Updated: 2023/08/06 02:00:19 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/13 16:48:27 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+char	*skip_whitespace(char *str)
+{
+	while (*str && isspace((unsigned char)*str))
+		str++;
+	return (str);
+}
 
 int	ft_atoi(const char *str)
 {
