@@ -3,34 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/08/31 13:30:17 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/15 03:02:15 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minirt.h"
 
-t_cylinder	*set_cylinder(double x, double y, double z, int color)
+t_cylinder	*set_cylinder(t_v3 pos, t_v3 normal, int color, double *rh)
 {
 	t_cylinder	*cylinder;
 
 	cylinder = ft_smart_malloc(sizeof(t_cylinder));
-	cylinder->pos.x = x;
-	cylinder->pos.y = y;
-	cylinder->pos.z = z;
-	cylinder->normal.x = 1;
-	cylinder->normal.y = 0.2;
-	cylinder->normal.z = 0;
+	cylinder->pos = pos;
+	cylinder->normal = normal;
 	normalize(&cylinder->normal);
-	cylinder->radius = 1;
-	cylinder->height = 5;
+	cylinder->radius = rh[0] / 2;
+	cylinder->height = rh[1];
 	cylinder->color = color;
 	return (cylinder);
 }
 
-int	set_cylinder_color(t_cylinder *cylinder, double *t)
+int	set_cylinder_color(t_cylinder *cylinder)
 {
 	return (cylinder->color);
 }
@@ -65,7 +61,7 @@ t_ray	cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray)
 	return (final_ray);
 }
 
-int	is_in_bounds(t_v3 hit_point, t_cylinder *cylinder, const t_ray *ray)
+int	is_in_bounds(t_v3 hit_point, t_cylinder *cylinder)
 {
 	t_v3	p1;
 	t_v3	p2;

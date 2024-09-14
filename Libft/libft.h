@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 15:27:27 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/13 17:11:29 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 02:32:04 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	*ft_smart_malloc(size_t size);
 
 int		ft_atoi(const char *str);
+int		ft_isspace(char c);
 int		ft_isalnum(int a);
 int		ft_isalpha(int a);
 int		ft_isascii(int a);
@@ -69,6 +70,8 @@ char	*ft_strcat(char *dest, const char *src);
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strchr(const char *s, int c);
 char	*skip_whitespace(char *str);
+int		parse_sign(char **str);
+double	parse_integer_part(char **str);
 char	*ft_strdup(const char *s1);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
@@ -77,5 +80,9 @@ char	*ft_itoa(int n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+double	parse_fractional_part(char **str);
+double	parse_exponential_part(char **str);
+double	ft_atof(const char *str);
+void	ft_free(void *address, char target);
 
 #endif

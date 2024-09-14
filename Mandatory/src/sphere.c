@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:50:23 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 17:47:33 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/15 03:01:18 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_sphere	*set_sphere(double x, double y, double z, int color)
+t_sphere	*set_sphere(double *xyz, double radius, int color)
 {
 	t_sphere	*sphere;
 
 	sphere = ft_smart_malloc(sizeof(t_sphere));
-	sphere->pos.x = x;
-	sphere->pos.y = y;
-	sphere->pos.z = z;
-	sphere->radius = 2;
+	sphere->pos.x = xyz[0];
+	sphere->pos.y = xyz[1];
+	sphere->pos.z = xyz[2];
+	sphere->radius = radius;
 	sphere->color = color;
 	return (sphere);
 }
 
-int	set_sphere_color(t_sphere *sphere, double *t)
+int	set_sphere_color(t_sphere *sphere)
 {
 	return (sphere->color);
 }

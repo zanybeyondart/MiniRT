@@ -1,44 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*   ft_atof1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/13 16:36:57 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/13 16:56:13 by zvakil           ###   ########.fr       */
+/*   Created: 2024/09/14 14:30:24 by mtashrif          #+#    #+#             */
+/*   Updated: 2024/09/15 02:06:37 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-int	parse_sign(char **str)
-{
-	int	sign;
-
-	sign = 1;
-	if (**str == '-')
-	{
-		sign = -1;
-		(*str)++;
-	}
-	else if (**str == '+')
-		(*str)++;
-	return (sign);
-}
-
-double	parse_integer_part(char **str)
-{
-	double	integer_part;
-
-	integer_part = 0.0;
-	while (**str >= '0' && **str <= '9')
-	{
-		integer_part = integer_part * 10.0 + (**str - '0');
-		(*str)++;
-	}
-	return (integer_part);
-}
 
 double	parse_fractional_part(char **str)
 {
@@ -73,7 +45,12 @@ double	parse_exponential_part(char **str)
 		exp_sign = parse_sign(str);
 		exponent = parse_integer_part(str);
 		while (exponent-- > 0)
-			exponential_part *= (exp_sign == 1) ? 10.0 : 0.1;
+		{
+			if (exp_sign == 1)
+				exponential_part *= 10.0;
+			else
+				exponential_part *= 0.1;
+		}
 	}
 	return (exponential_part);
 }
@@ -84,7 +61,7 @@ double	ft_atof(const char *str)
 	double	result;
 	int		sign;
 
-	s = (char *) str;
+	s = (char *)str;
 	s = skip_whitespace(s);
 	sign = parse_sign(&s);
 	result = parse_integer_part(&s);

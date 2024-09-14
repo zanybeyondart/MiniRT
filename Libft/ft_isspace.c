@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui.c                                               :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 18:01:54 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/10 18:04:12 by zvakil           ###   ########.fr       */
+/*   Created: 2024/09/14 17:30:28 by mtashrif          #+#    #+#             */
+/*   Updated: 2024/09/15 02:06:41 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minirt.h"
+#include "libft.h"
 
-void	print_layer(t_active_layers *menu)
+int	ft_isspace(char c)
 {
-	
+	return (c == ' ' || c == '\t' || c == '\n' \
+	|| c == '\r' || c == '\v' || c == '\f');
 }

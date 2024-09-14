@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/14 15:24:55 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 03:20:26 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@
 #  define RIGHT_KEY 65363
 #  define LEFT_KEY 65361
 #  define ESC 65307
+#  define E	14
+#  define R	15
+#  define F1	122
+#  define F2	120
 
 # else
 #  define W_KEY	13
@@ -98,7 +102,6 @@ typedef struct s_layers
 	void				*main_box;
 	t_active_layers		*active_layers;
 }	t_layers;
-
 
 typedef struct s_v3
 {
@@ -216,8 +219,8 @@ t_v3			divide_vector(const t_v3 v, double div);
 t_v3			create_v3(double x, double y, double z);
 
 // plane.c
-t_plane			*set_plane();
-int				set_plane_color(t_plane *plane, double *t);
+t_plane			*set_plane(double *xyz, double *normal, double *rgb);
+int				set_plane_color(t_plane *plane);
 double			*hit_plane(t_plane *plane, const t_ray *ray, double *lim_dep);
 t_ray			plane_hitray(t_plane *plane, double *t, t_ray *ray);
 t_v3			plane_normal(t_plane *plane);
@@ -232,8 +235,8 @@ t_matrix		look_at(t_v3 origin, t_v3 cam_vector, t_cam *cam);
 t_v3			multiply_by_matrix(t_v3 p, t_matrix m);
 
 // sphere.c
-t_sphere		*set_sphere(double x, double y, double z, int color);
-int				set_sphere_color(t_sphere *sphere, double *t);
+t_sphere		*set_sphere(double *xyz, double radius, int color);
+int				set_sphere_color(t_sphere *sphere);
 double			*hit_sphere(t_sphere *sphere, const t_ray *ray,
 					double *lim_dep);
 int				diffuse(t_ray ray, t_objects *obj, t_objects *w_objs,
@@ -255,7 +258,6 @@ int				get_g(int trgb);
 int				get_b(int trgb);
 
 // objects.c
-t_objects		*load_objects();
 t_objects		*get_objects(t_objects *obj, int change);
 t_objects		*_objects(t_objects *obj, int change);
 t_v3			normal_at_intersection(t_objects *obj, t_v3 point);
@@ -272,11 +274,16 @@ int				events(int keycode, t_vars *vars);
 void			anti_alias(t_vars *vars);
 int				store_render(int update, int x, int y, int color);
 void			modify_pixel(t_vars *vars, int x, int y);
+int				set_size(t_vars *vars);
 
 // render.c
 int				render(t_vars *vars);
+t_objects		*add_to_list(t_objects *main, void *data, t_objs type, int id);
 int				low_res_render(t_objects *obj, t_ray ray,
 					int color, double *lim_dep);
+void			scale_image_2(t_vars *vars, int *x, int *y);
+void			render_pixel(t_vars *vars, int i, int j);
+void			scale_image(t_vars *vars);
 
 // ray_trace.c
 int				ray_trace(t_objects *obj, t_ray ray, int color,
@@ -287,9 +294,10 @@ int				bounce_ray(t_ray ray, t_objects *hit, t_objects *main,
 
 // rand_ray.c
 t_ray			random_ray(t_v3 normal, t_v3 origin);
+int				parse_split(char **s, char letter);
 
 // data_manage.c
-int				data_color(t_objects *obj, double *t);
+int				data_color(t_objects *obj);
 double			*hit_object(t_objects *obj, t_ray *ray, double *lim_dep);
 void			*return_type(t_objects	*world, t_objs type);
 
@@ -301,10 +309,9 @@ int				compute_light_shadow(t_objects *world,
 
 // cylinder.c
 t_ray			cylinder_hitray(t_cylinder *cylinder, double *t, t_ray *ray);
-int				set_cylinder_color(t_cylinder *cylinder, double *t);
-t_cylinder		*set_cylinder(double x, double y, double z, int color);
-int				is_in_bounds(t_v3 hit_point, t_cylinder *cylinder,
-					const t_ray *ray);
+int				set_cylinder_color(t_cylinder *cylinder);
+t_cylinder		*set_cylinder(t_v3 pos, t_v3 normal, int color, double *rh);
+int				is_in_bounds(t_v3 hit_point, t_cylinder *cylinder);
 t_v3			cylinder_surface_normal(t_cylinder *cy, t_v3 hit_pt);
 
 // cylinder_2.c
@@ -314,31 +321,38 @@ t_v3			hit_cord(const t_ray *ray, double *t);
 
 //parse.c
 
-int 	read_file(char *readfile, t_objects *objects);
-int 	read_test(char *test, t_objects *objects);
+int				read_file(char *readfile);
+int				read_test(char *test);
 
 //Checking the type
-int		check_ambient(char *str, t_objects *objects);
-int		check_camera(char *str, t_objects *objects);
-int		check_light(char *str, t_objects *objects);
-int		check_sphere(char *str, t_objects *objects);
-int		check_plane(char *str, t_objects *objects);
-int		check_cylinder(char *str, t_objects *objects);
+int				check_ambient(char *str);
+int				check_camera(char *str);
+int				check_light(char *str);
+int				check_sphere(char *str);
+int				check_plane(char *str);
+int				check_cylinder(char *str);
 
 //Check for Range
-int		check_rgb_range(float rgb[3]);
-int		check_lighting_range(float lighting);
-int		check_normal_range(float rgb[3]);
-int		check_fov_range(float fov); 
+int				check_rgb_range(double rgb[3]);
+int				check_lighting_range(double lighting);
+int				chk_n_range(double normal[3]);
+int				check_fov_range(double fov);
 
 //Only for printing the values (Can be removed)
-void 	print_split_result(char **split_result);
-void 	print_array_char(char **arr);
-void 	print_array_float(float *rgb); 
+void			print_split_result(char **split_result);
+void			print_array_char(char **arr);
+void			print_array_float(double *rgb);
 
 //parse items
-int		parse_xyz(char *input, float xyz[3]);
-int		parse_normal(char *input, float normal[3]);
-int		parse_rgb(char *input, float rgb[3]);
+int				parse_xyz(char *input, double xyz[3]);
+int				parse_normal(char *input, double normal[3]);
+int				parse_rgb(char *input, double rgb[3]);
+
+double			random_double(void);
+int				shadow_ray(t_ray *ray, t_light *light,
+					double d, t_objects *obj);
+int				check_test(char *test);
+int				check_fd(int fd);
+int				empty_line(char *line);
 
 #endif

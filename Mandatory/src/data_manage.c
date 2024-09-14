@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_manage.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:43:56 by user              #+#    #+#             */
-/*   Updated: 2024/08/31 13:01:27 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/15 03:03:11 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	*return_type(t_objects	*world, t_objs type)
 	return (NULL);
 }
 
-int	data_color(t_objects *obj, double *t)
+int	data_color(t_objects *obj)
 {
 	if (obj == NULL)
 		return (0);
 	if (obj->type == SPHERE)
-		return (set_sphere_color(obj->data, t));
+		return (set_sphere_color(obj->data));
 	else if (obj->type == PLANE)
-		return (set_plane_color(obj->data, t));
+		return (set_plane_color(obj->data));
 	else if (obj->type == CYLINDER)
-		return (set_cylinder_color(obj->data, t));
+		return (set_cylinder_color(obj->data));
 	return (0);
 }
 

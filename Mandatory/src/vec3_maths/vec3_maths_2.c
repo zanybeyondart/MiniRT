@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_maths_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 01:45:35 by zanybeyonda       #+#    #+#             */
-/*   Updated: 2024/08/25 20:21:37 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/15 00:39:59 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,4 @@ double	*solve_quadratic_eq(double a, double b, double c, double *lim_dep)
 		return (NULL);
 	}
 	return (t);
-}
-
-t_v3	ray_equation(t_v3 o, t_v3 td)
-{
-	return (add_vectors(o, td));
 }

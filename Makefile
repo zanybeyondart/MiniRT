@@ -1,7 +1,7 @@
 NAME = miniRT
-#CFLAGS = -Werror -Wall -Wextra
-#DEBUG_AD = -fsanitize=address
-#DEBUG_LEAK = -fsanitize=leak
+CFLAGS = -Werror -Wall -Wextra
+# DEBUG_AD = -fsanitize=address
+# DEBUG_LEAK = -fsanitize=leak
 SRC = $(wildcard Mandatory/src/*.c) $(wildcard Mandatory/src/vec3_maths/*.c) $(wildcard Mandatory/src/cylinder/*.c) $(wildcard Mandatory/src/gnl/*.c) $(wildcard Mandatory/src/parse/*.c)
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft

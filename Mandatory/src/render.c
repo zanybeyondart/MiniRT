@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/09/03 19:35:25 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 01:00:06 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_v3	set_pixel(int x, int y, t_vars *vars)
 	return (create_v3(p_x, p_y, 1));
 }
 
-
 void	render_pixel(t_vars *vars, int i, int j)
 {
 	t_v3	pixel;
@@ -49,7 +48,7 @@ void	render_pixel(t_vars *vars, int i, int j)
 	store_render(1, i, j, color);
 }
 
-void set_size(t_vars *vars)
+int	set_size(t_vars *vars)
 {
 	if (vars->mode == 1)
 	{
@@ -61,6 +60,7 @@ void set_size(t_vars *vars)
 		vars->size[0] = WIDTH_LD;
 		vars->size[1] = HEIGHT_LD;
 	}
+	return (1);
 }
 
 void	scale_image(t_vars *vars)
@@ -74,52 +74,19 @@ void	scale_image(t_vars *vars)
 		x[0] = 0;
 		while (x[0] < WIDTH_LD)
 		{
-		y[1] = 0;
+			y[1] = 0;
 			while (y[1] < HEIGHT / HEIGHT_LD)
 			{
 				x[1] = 0;
 				while (x[1] < WIDTH / WIDTH_LD)
 				{
-					mlx_pixel_put(vars->mlx, vars->win,
-						x[0] * WIDTH / WIDTH_LD + x[1],
-						y[0] * HEIGHT / HEIGHT_LD + y[1],
-						store_render(0, x[0], y[0], 0));
-				x[1]++;
+					scale_image_2(vars, x, y);
+					x[1]++;
 				}
-		y[1]++;
+				y[1]++;
 			}
-		x[0]++;
+			x[0]++;
 		}
-	y[0]++;
+		y[0]++;
 	}
-}
-
-int	render(t_vars *vars)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	set_size(vars);
-	if (vars->update == 1)
-	{
-		mlx_clear_window(vars->mlx, vars->win);
-		vars->update = 0;
-		while (i < vars->size[0] && vars->update == 0)
-		{
-			j = 0;
-			while (j < vars->size[1] && vars->update == 0)
-			{
-				render_pixel(vars, i, j);
-				j++;
-			}
-			i++;
-		}
-		if (vars->mode == 1)
-			anti_alias(vars);
-		else
-			scale_image(vars);
-	}
-	mlx_do_sync(vars->mlx);
-	return (1);
 }

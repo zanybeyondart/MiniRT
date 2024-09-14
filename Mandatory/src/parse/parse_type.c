@@ -1,86 +1,132 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_type.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/14 12:28:49 by mtashrif          #+#    #+#             */
+/*   Updated: 2024/09/15 02:31:20 by zvakil           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minirt.h"
 
-// Updated validation function
-int validate_split(char **arr, int expected_count)
+int	check_comma(char *input)
 {
-    int count = 0;
-    int i = 0;
+	int	flag;
+	int	i;
+	int	comma;
 
-    while (arr[count])
-        count++;
-
-    if (count != expected_count)
-    {
-        printf("Error: Incorrect number of values. Expected %d "\
-         "values separated by commas.\n", expected_count);
-        return 1;
-    }
-    while (i < expected_count)
-    {
-        if (arr[i][0] == '\0')
-        {
-            printf("Error: Missing value between commas.\n");
-            return 1;
-        }
-        i++;
-    }
-    return 0;
+	comma = 0;
+	i = 0;
+	flag = 2;
+	while (input[i])
+	{
+		if (input[i] == ',')
+			comma++;
+		i++;
+	}
+	if (comma != flag)
+	{
+		printf("Error: Incorrect count of commas\n");
+		return (1);
+	}
+	return (0);
 }
 
-int parse_xyz(char *input, float xyz[3])
+int	validate_split(char **arr, int expected_count)
 {
-    char **arr_xyz;
-    int u = 0;
+	int	count;
+	int	i;
 
-    arr_xyz = ft_split_2(input, ',', 1);
-    if (!arr_xyz || validate_split(arr_xyz, 3))
-    {
-        free(arr_xyz);
-        return (1);
-    }
-
-    while (arr_xyz[u])
-    {
-        xyz[u] = atof(arr_xyz[u]);
-        u++;
-    }
-    free(arr_xyz);
-}
-int parse_normal(char *input, float normal[3])
-{
-    char **arr_normal;
-    int u = 0;
-
-    arr_normal = ft_split_2(input, ',', 1);
-    if (!arr_normal || validate_split(arr_normal, 3))
-    {
-        free(arr_normal);
-        return (1);
-    }
-
-    while (arr_normal[u])
-    {
-        normal[u] = atof(arr_normal[u]);
-        u++;
-    }
-    free(arr_normal);
+	count = 0;
+	i = 0;
+	while (arr[count])
+		count++;
+	if (count != expected_count)
+	{
+		printf("Error: Incorrect number of values. Expected %d "\
+			"values separated by commas.\n", expected_count);
+		return (1);
+	}
+	while (i < expected_count)
+	{
+		if (arr[i][0] == '\0')
+		{
+			printf("Error: Missing value between commas.\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-int parse_rgb(char *input, float rgb[3])
+int	parse_xyz(char *input, double xyz[3])
 {
-    char **arr_rgb;
-    int u = 0;
+	char	**arr_xyz;
+	int		u;
 
-    arr_rgb = ft_split_2(input, ',', 1);
-    if (!arr_rgb || validate_split(arr_rgb, 3))
-    {
-        free(arr_rgb);
-        return(1);
-    }
-    while (arr_rgb[u])
-    {
-        rgb[u] = atof(arr_rgb[u]);
-        u++;
-    }
-    free(arr_rgb);
+	u = 0;
+	if (check_comma(input) == 1)
+		return (1);
+	arr_xyz = ft_split_2(input, ',', 1);
+	if (!arr_xyz || validate_split(arr_xyz, 3))
+	{
+		free(arr_xyz);
+		return (1);
+	}
+	while (arr_xyz[u])
+	{
+		xyz[u] = ft_atof(arr_xyz[u]);
+		u++;
+	}
+	free(arr_xyz);
+	return (0);
+}
+
+int	parse_normal(char *input, double normal[3])
+{
+	char	**arr_normal;
+	int		u;
+
+	u = 0;
+	if (check_comma(input) == 1)
+		return (1);
+	arr_normal = ft_split_2(input, ',', 1);
+	if (!arr_normal || validate_split(arr_normal, 3))
+	{
+		free(arr_normal);
+		return (1);
+	}
+	while (arr_normal[u])
+	{
+		normal[u] = ft_atof(arr_normal[u]);
+		u++;
+	}
+	free(arr_normal);
+	return (0);
+}
+
+int	parse_rgb(char *input, double rgb[3])
+{
+	char	**arr_rgb;
+	int		u;
+
+	u = 0;
+	if (check_comma(input) == 1)
+		return (1);
+	arr_rgb = ft_split_2(input, ',', 1);
+	if (!arr_rgb || validate_split(arr_rgb, 3))
+	{
+		free(arr_rgb);
+		return (1);
+	}
+	while (arr_rgb[u])
+	{
+		rgb[u] = ft_atof(arr_rgb[u]);
+		u++;
+	}
+	free(arr_rgb);
+	return (0);
 }

@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:33:43 by user              #+#    #+#             */
-/*   Updated: 2024/08/25 17:48:05 by zanybeyonda      ###   ########.fr       */
+/*   Updated: 2024/09/15 03:00:45 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
 
-t_plane	*set_plane()
+t_plane	*set_plane(double *xyz, double *normal, double *rgb)
 {
 	t_plane	*plane;
 
 	plane = ft_smart_malloc(sizeof(t_plane));
-	plane->pos.x = 0;
-	plane->pos.y = 0;
-	plane->pos.z = 0;
-	plane->normal.x = 0;
-	plane->normal.y = 1;
-	plane->normal.z = 0;
-	plane->color = create_trgb(0, 150, 150, 150);
+	plane->pos.x = xyz[0];
+	plane->pos.y = xyz[1];
+	plane->pos.z = xyz[2];
+	plane->normal.x = normal[0];
+	plane->normal.y = normal[1];
+	plane->normal.z = normal[2];
+	plane->color = create_trgb(0, rgb[0], rgb[1], rgb[2]);
 	return (plane);
 }
 
-int	set_plane_color(t_plane *plane, double *t)
+int	set_plane_color(t_plane *plane)
 {
 	return (plane->color);
 }
