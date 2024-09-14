@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user <user@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/11 15:25:07 by user             ###   ########.fr       */
+/*   Updated: 2024/09/14 14:13:43 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "../../Libft/libft.h"
+# include "../src/gnl/get_next_line.h"
 # include <math.h>
 # include <stdint.h>
 
@@ -49,7 +50,6 @@
 #  define R	15
 #  define F1	122
 #  define F2	120
-#  define P 35
 # endif
 
 // SETTINGS
@@ -175,19 +175,6 @@ typedef struct s_objects
 	struct s_objects	*next;
 }	t_objects;
 
-typedef struct s_image
-{
-	void				*img;
-	int					w;
-	int					h;
-}	t_image;
-
-typedef struct s_ui
-{
-	t_image	overlay;
-	int		active;
-}	t_ui;
-
 typedef struct s_vars
 {
 	void		*mlx;
@@ -197,14 +184,13 @@ typedef struct s_vars
 	int			update;
 	int			size[2];
 	int			mode;
-	t_ui		*ui;
 }	t_vars;
 
 // minirt.c
 int				intersect(t_vars *vars, t_v3 pixel);
 
 // check_arguments.c
-int				check_arguments(int ac, char **av);
+t_objects		*check_arguments(int ac, char **av);
 
 // normals.c
 void			normalize(t_v3 *vector);
@@ -325,9 +311,33 @@ double			*hit_cylinder(t_cylinder *cylinder, const t_ray *ray,
 					double *lim_dep);
 t_v3			hit_cord(const t_ray *ray, double *t);
 
-// ui.c
+//parse.c
 
-t_ui			*load_ui(t_vars *vars);
-void			print_ui(t_active_layers *menu);
+int 	read_file(char *readfile, t_objects *objects);
+int 	read_test(char *test, t_objects *objects);
+
+//Checking the type
+int		check_ambient(char *str, t_objects *objects);
+int		check_camera(char *str, t_objects *objects);
+int		check_light(char *str, t_objects *objects);
+int		check_sphere(char *str, t_objects *objects);
+int		check_plane(char *str, t_objects *objects);
+int		check_cylinder(char *str, t_objects *objects);
+
+//Check for Range
+int		check_rgb_range(float rgb[3]);
+int		check_lighting_range(float lighting);
+int		check_normal_range(float rgb[3]);
+int		check_fov_range(float fov); 
+
+//Only for printing the values (Can be removed)
+void 	print_split_result(char **split_result);
+void 	print_array_char(char **arr);
+void 	print_array_float(float *rgb); 
+
+//parse items
+int		parse_xyz(char *input, float xyz[3]);
+int		parse_normal(char *input, float normal[3]);
+int		parse_rgb(char *input, float rgb[3]);
 
 #endif
