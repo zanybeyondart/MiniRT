@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/15 03:20:26 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 03:54:18 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,7 @@ t_v3			hit_cord(const t_ray *ray, double *t);
 
 int				read_file(char *readfile);
 int				read_test(char *test);
+int				camera_error(void);
 
 //Checking the type
 int				check_ambient(char *str);

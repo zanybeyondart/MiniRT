@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 16:45:38 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/15 03:08:22 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 03:53:10 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,29 +81,29 @@ int	cr_cy(double num, char type)
 
 int	check_cylinder(char *str)
 {
-	char	**split_result;
-	double	all[3][3];
+	char	**sp;
+	double	a[3][3];
 	double	cy_dh[2];
 
-	split_result = ft_split_2(str, ' ', 0);
-	if (parse_split(split_result, 'c') == 1)
-		return (ft_free(&split_result, 'a'), 1);
-	if (split_result[1] && parse_xyz(split_result[1], all[0]))
-		return (ft_free(&split_result, 'a'), 1);
-	if (split_result[2] && parse_normal(split_result[2], all[1]) \
-		&& chk_n_range(all[1]) != 0)
-		return (ft_free(&split_result, 'a'), 1);
-	if (split_result[3])
-		cy_dh[0] = ft_atof(split_result[3]);
-	if (split_result[4])
-		cy_dh[1] = ft_atof(split_result[4]);
+	sp = ft_split_2(str, ' ', 0);
+	if (parse_split(sp, 'c') == 1)
+		return (ft_free(&sp, 'a'), 1);
+	if (sp[1] && parse_xyz(sp[1], a[0]))
+		return (ft_free(&sp, 'a'), 1);
+	if (sp[2] && parse_normal(sp[2], a[1]) && chk_n_range(a[1]) != 0)
+		return (ft_free(&sp, 'a'), 1);
+	if (sp[3])
+		cy_dh[0] = ft_atof(sp[3]);
+	if (sp[4])
+		cy_dh[1] = ft_atof(sp[4]);
 	if (cr_cy(cy_dh[0], 'd') == 1 || cr_cy(cy_dh[1], 'h') == 1)
-		return (ft_free(&split_result, 'a'), 1);
-	if (split_result[5] && parse_rgb(split_result[5], all[2]) \
-		&& check_rgb_range(all[2]) != 0)
-		return (ft_free(&split_result, 'a'), 1);
-	add_to_list(get_objects(NULL, 0),
-		set_cylinder(create_v3(all[0][0], all[0][1], all[0][2]),
-		create_v3(all[1][0], all[1][1], all[1][2]),create_trgb(0, all[2][0], all[2][1], all[2][2]), cy_dh), CYLINDER, 3);
-	return (ft_free(&split_result, 'a'), 0);
+		return (ft_free(&sp, 'a'), 1);
+	if (sp[5] && parse_rgb(sp[5], a[2]) \
+		&& check_rgb_range(a[2]) != 0)
+		return (ft_free(&sp, 'a'), 1);
+	add_to_list(get_objects(NULL, 0), \
+	set_cylinder(create_v3(a[0][0], a[0][1], a[0][2]), \
+	create_v3(a[1][0], a[1][1], a[1][2]), \
+	create_trgb(0, a[2][0], a[2][1], a[2][2]), cy_dh), CYLINDER, 3);
+	return (ft_free(&sp, 'a'), 0);
 }

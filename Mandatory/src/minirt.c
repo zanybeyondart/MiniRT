@@ -6,29 +6,11 @@
 /*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:59:18 by user              #+#    #+#             */
-/*   Updated: 2024/09/15 02:58:48 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 03:35:56 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minirt.h"
-
-int	check_rt(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	if ((str[i - 1] && str[i - 1] == 't') \
-		&& (str[i - 2] && str[i - 2] == 'r') \
-		&& (str[i - 3] && str[i - 3] == '.'))
-		return (0);
-	else
-	{
-		printf("Error: Please provide file name with correct extension");
-		return (1);
-	}
-}
 
 int	intersect(t_vars *vars, t_v3 pixel)
 {
@@ -58,7 +40,7 @@ int	main(int ac, char **av)
 {
 	t_vars		*vars;
 
-	if (check_arguments(ac, av) && !check_rt(av[1]))
+	if (check_arguments(ac, av))
 	{
 		if (get_objects(NULL, 0))
 			free_objects(get_objects(NULL, 0));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_file_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtashrif <mtashrif@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 19:11:38 by mtashrif          #+#    #+#             */
-/*   Updated: 2024/09/14 19:23:08 by mtashrif         ###   ########.fr       */
+/*   Updated: 2024/09/15 03:47:55 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,10 @@ int	empty_line(char *line)
 		|| line[i] == '\n' || line[i] == '\r'))
 		i++;
 	return (line[i] == '\0');
+}
+
+int	camera_error(void)
+{
+	printf("Error: Camera should only be added once \n");
+	return (1);
 }

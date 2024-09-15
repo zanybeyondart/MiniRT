@@ -6,7 +6,7 @@
 /*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:29:08 by mtashrif          #+#    #+#             */
-/*   Updated: 2024/09/15 03:09:33 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 03:48:47 by zvakil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ int	read_test(char *test)
 int	read_file_test(int fd)
 {
 	char	*test;
+	int		flag;
 
+	flag = 0;
 	test = get_next_line(fd);
 	if (check_test(test) == 1)
 		return (1);
@@ -107,6 +109,9 @@ int	read_file_test(int fd)
 			free(test);
 			return (1);
 		}
+		if (test[0] == 'C' && flag++)
+			if (flag > 1)
+				return (camera_error(), 1);
 		free(test);
 		test = get_next_line(fd);
 	}
