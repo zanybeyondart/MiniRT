@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 13:57:27 by user              #+#    #+#             */
-/*   Updated: 2024/09/15 03:04:19 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 05:03:28 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	low_res_render(t_objects *obj, t_ray ray, int color, double *lim_dep)
 		obj = obj->next;
 	}
 	if (closest)
+	{
 		color = data_color(closest_obj);
+		free(closest);
+	}
 	return (color);
 }
 

@@ -51,7 +51,7 @@ all	: $(NAME)
 $(OBJ_DIR)/%.o: %.c
 	@echo "$(GREEN)MLX:$(WHITE) Compiling $<$(RESET)"
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@ 
 
 $(NAME)	: $(OBJ)
 	@ar -rcs $(NAME) $(OBJ)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/23 10:44:03 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/15 03:57:34 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 04:52:01 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,18 @@ char	**ft_split_2(const char *s, char c, int bool_value)
 	}
 	result[v[1]] = NULL;
 	return (result);
+}
+
+void	free_split(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	i--;
+	while (i != 0)
+		free(str[i--]);
+	free(str[i]);
+	free(str);
 }

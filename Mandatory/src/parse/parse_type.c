@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 12:28:49 by mtashrif          #+#    #+#             */
-/*   Updated: 2024/09/15 02:31:20 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 04:56:04 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	parse_xyz(char *input, double xyz[3])
 	arr_xyz = ft_split_2(input, ',', 1);
 	if (!arr_xyz || validate_split(arr_xyz, 3))
 	{
-		free(arr_xyz);
+		free_split(arr_xyz);
 		return (1);
 	}
 	while (arr_xyz[u])
@@ -81,7 +81,7 @@ int	parse_xyz(char *input, double xyz[3])
 		xyz[u] = ft_atof(arr_xyz[u]);
 		u++;
 	}
-	free(arr_xyz);
+	free_split(arr_xyz);
 	return (0);
 }
 
@@ -96,7 +96,7 @@ int	parse_normal(char *input, double normal[3])
 	arr_normal = ft_split_2(input, ',', 1);
 	if (!arr_normal || validate_split(arr_normal, 3))
 	{
-		free(arr_normal);
+		free_split(arr_normal);
 		return (1);
 	}
 	while (arr_normal[u])
@@ -104,7 +104,7 @@ int	parse_normal(char *input, double normal[3])
 		normal[u] = ft_atof(arr_normal[u]);
 		u++;
 	}
-	free(arr_normal);
+	free_split(arr_normal);
 	return (0);
 }
 
@@ -119,7 +119,7 @@ int	parse_rgb(char *input, double rgb[3])
 	arr_rgb = ft_split_2(input, ',', 1);
 	if (!arr_rgb || validate_split(arr_rgb, 3))
 	{
-		free(arr_rgb);
+		free_split(arr_rgb);
 		return (1);
 	}
 	while (arr_rgb[u])
@@ -127,6 +127,6 @@ int	parse_rgb(char *input, double rgb[3])
 		rgb[u] = ft_atof(arr_rgb[u]);
 		u++;
 	}
-	free(arr_rgb);
+	free_split(arr_rgb);
 	return (0);
 }

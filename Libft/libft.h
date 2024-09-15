@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 15:27:27 by zvakil            #+#    #+#             */
-/*   Updated: 2024/09/15 02:32:04 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 04:52:01 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 void	ft_bzero(void *s, size_t n);
+void	free_split(char **str);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);

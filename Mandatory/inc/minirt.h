@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zvakil <zvakil@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zanybeyondart <zanybeyondart@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 12:03:29 by user              #+#    #+#             */
-/*   Updated: 2024/09/15 03:54:18 by zvakil           ###   ########.fr       */
+/*   Updated: 2024/09/15 04:41:53 by zanybeyonda      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@
 #  define RIGHT_KEY 65363
 #  define LEFT_KEY 65361
 #  define ESC 65307
-#  define E	14
-#  define R	15
-#  define F1	122
-#  define F2	120
+#  define E	101
+#  define R	114
+#  define F1	65470
+#  define F2	65471
 
 # else
 #  define W_KEY	13

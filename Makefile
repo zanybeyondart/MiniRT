@@ -1,7 +1,7 @@
 NAME = miniRT
 CFLAGS = -Werror -Wall -Wextra
 # DEBUG_AD = -fsanitize=address
-# DEBUG_LEAK = -fsanitize=leak
+ DEBUG_LEAK = -fsanitize=leak
 SRC = $(wildcard Mandatory/src/*.c) $(wildcard Mandatory/src/vec3_maths/*.c) $(wildcard Mandatory/src/cylinder/*.c) $(wildcard Mandatory/src/gnl/*.c) $(wildcard Mandatory/src/parse/*.c)
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = Libft
@@ -28,7 +28,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIBFT_LIB)
 	@echo "$(GREEN)MiniRT: $(WHITE)Linking $(NAME)$(RESET)"
 	@cd $(MLX_DIR) && make -s
-	@$(CC) $(CFLAGS) $(DEBUG_AD) $(OBJ) -L$(LIBFT_DIR) -lft $(MLX_FLAGS) -o $@
+	@$(CC) $(CFLAGS) $(DEBUG_LEAK) $(OBJ) -L$(LIBFT_DIR) -lft $(MLX_FLAGS) -o $@
 
 %.o: %.c
 	@echo "$(GREEN)MiniRT:$(WHITE) Compiling $(notdir $<)$(RESET)"
